@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>K-Progress | 건설사업부 성과 관제탑</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;height:100%}
+body{
+  font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background:#F3F4F6;color:#111827;height:100%;word-break:keep-all;
+  display:flex;flex-direction:column;
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:9999px}
+
+/* ════ HEADER ════ */
+.header{
+  height:56px;background:#fff;border-bottom:1px solid #E5E7EB;
+  display:flex;align-items:center;padding:0 16px;gap:0;
+  position:sticky;top:0;z-index:200;flex-shrink:0;
+}
+.h-logo{
+  display:flex;align-items:center;gap:10px;
+  width:228px;flex-shrink:0;padding-right:16px;
+  border-right:1px solid #F3F4F6;
+}
+.h-logo-name{font-size:15px;font-weight:700;color:#111827;letter-spacing:-.01em;line-height:1}
+.h-logo-sub{font-size:10px;color:#9CA3AF;font-weight:500;margin-top:2px}
+
+.h-nav{display:flex;align-items:stretch;flex:1;height:100%;padding:0 4px}
+.nav-item{position:relative;display:flex;align-items:center}
+.nav-btn{
+  display:flex;align-items:center;gap:4px;padding:0 13px;height:100%;
+  font-size:13px;font-weight:500;color:#374151;
+  border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap;
+}
+.nav-btn:hover,.nav-item:hover .nav-btn{color:#2563EB;background:#F9FAFB}
+.nav-btn.act{color:#2563EB;border-bottom-color:#2563EB;font-weight:600}
+.nav-chevron{width:11px;height:11px;stroke:#9CA3AF;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.nav-item:hover .nav-chevron{transform:rotate(180deg);stroke:#2563EB}
+
+/* Dropdown */
+.dd{
+  display:none;position:absolute;top:100%;left:0;
+  background:#fff;border:1px solid #E5E7EB;border-radius:12px;
+  min-width:196px;padding:6px;
+  box-shadow:0 8px 24px rgba(0,0,0,.10);z-index:300;
+}
+.nav-item:hover .dd{display:block}
+.dd-sec{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;padding:6px 10px 3px}
+.dd-row{
+  display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;
+  font-size:12.5px;color:#374151;font-weight:500;cursor:pointer;transition:all .15s;
+}
+.dd-row:hover{background:#EFF6FF;color:#2563EB}
+.dd-row svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.7}
+.dd-div{height:1px;background:#F3F4F6;margin:4px 0}
+.dd-badge{margin-left:auto;background:#EDE9FE;color:#7C3AED;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;letter-spacing:.04em}
+
+/* Header right */
+.h-right{display:flex;align-items:center;gap:8px;margin-left:auto;padding-left:12px;flex-shrink:0}
+.h-date{font-size:11.5px;color:#9CA3AF}
+.h-alert{
+  display:flex;align-items:center;gap:5px;padding:4px 10px;
+  border-radius:9999px;background:#FEF2F2;border:1px solid #FEE2E2;
+  font-size:11px;font-weight:700;color:#DC2626;cursor:pointer;
+}
+.h-dot{width:6px;height:6px;border-radius:9999px;background:#EF4444}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.h-dot{animation:blink 2s infinite}
+.h-user{
+  display:flex;align-items:center;gap:7px;padding:4px 12px 4px 5px;
+  border-radius:9999px;background:#F9FAFB;border:1px solid #E5E7EB;cursor:pointer;
+}
+.h-avatar{
+  width:28px;height:28px;border-radius:9999px;
+  background:linear-gradient(135deg,#1D4ED8,#06B6D4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;color:#fff;flex-shrink:0;
+}
+.h-uname{font-size:12px;font-weight:600;color:#111827}
+.h-urole{font-size:10px;color:#9CA3AF}
+
+/* ════ BODY ════ */
+.body{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* ════ SIDEBAR ════ */
+.sidebar{
+  width:228px;flex-shrink:0;background:#fff;
+  border-right:1px solid #E5E7EB;
+  overflow-y:auto;padding:10px 10px 20px;
+  display:flex;flex-direction:column;
+}
+.sb-lbl{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;padding:8px 6px 3px}
+.sb-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:7px 7px;border-radius:8px;cursor:pointer;transition:all .15s;margin-bottom:1px;
+}
+.sb-item:hover{background:#F9FAFB}
+.sb-item.act{background:#EFF6FF}
+.sb-left{display:flex;align-items:center;gap:8px}
+.sb-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-icon svg{width:13px;height:13px;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sb-txt{font-size:12.5px;font-weight:500;color:#374151}
+.sb-item.act .sb-txt{color:#2563EB;font-weight:600}
+.sb-arr{width:13px;height:13px;stroke:#D1D5DB;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.sb-arr.open{transform:rotate(180deg)}
+.sb-sub{padding-left:34px;display:none}
+.sb-sub.open{display:block}
+.sb-sub-row{
+  display:flex;align-items:center;gap:5px;padding:5px 6px;
+  border-radius:6px;font-size:12px;color:#6B7280;font-weight:500;
+  cursor:pointer;transition:all .15s;margin-bottom:1px;
+}
+.sb-sub-row:hover{background:#F3F4F6;color:#374151}
+.sb-sub-row.act{color:#2563EB;background:#EFF6FF;font-weight:600}
+.sb-dot{width:4px;height:4px;border-radius:9999px;background:#D1D5DB;flex-shrink:0}
+.sb-sub-row.act .sb-dot{background:#2563EB}
+.sb-div{height:1px;background:#F3F4F6;margin:6px 0}
+.sb-bottom{margin-top:auto;padding-top:10px;border-top:1px solid #F3F4F6}
+.sb-quick{
+  display:flex;align-items:center;gap:7px;padding:6px 6px;border-radius:7px;
+  font-size:12px;color:#6B7280;cursor:pointer;transition:all .15s;
+}
+.sb-quick:hover{background:#F9FAFB;color:#374151}
+.sb-quick svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.7}
+
+/* ════ MAIN ════ */
+.main{flex:1;overflow-y:auto;padding:20px;min-width:0}
+
+/* Page header */
+.pg-hd{margin-bottom:16px}
+.bc{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#9CA3AF;margin-bottom:4px}
+.bc span{color:#374151;font-weight:500}
+.bc svg{width:11px;height:11px;stroke:#D1D5DB;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pg-title{font-size:19px;font-weight:700;color:#111827;letter-spacing:-.01em}
+.pg-sub{font-size:12.5px;color:#6B7280;margin-top:2px}
+
+/* Quick actions */
+.qa{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.qa-card{
+  display:flex;align-items:center;gap:8px;padding:9px 12px;border-radius:9px;
+  background:#fff;border:1px solid #E5E7EB;cursor:pointer;transition:all .15s;flex:1;min-width:140px;
+}
+.qa-card:hover{border-color:#93C5FD;background:#F0F7FF}
+.qa-card:hover .qa-title{color:#2563EB}
+.qa-ico{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.qa-ico svg{width:14px;height:14px;fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.8}
+.qa-title{font-size:12px;font-weight:600;color:#374151}
+.qa-sub{font-size:11px;color:#9CA3AF;margin-top:1px}
+
+/* KPI grid */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px}
+.kpi{background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.kpi-ico{width:38px;height:38px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.kpi-ico svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.kpi-lbl{font-size:11px;color:#9CA3AF;font-weight:500;margin-bottom:3px}
+.kpi-val{font-size:21px;font-weight:800;color:#111827;letter-spacing:-.02em;line-height:1}
+.kpi-val em{font-size:13px;font-weight:600;font-style:normal;margin-left:1px}
+.kpi-delta{font-size:11px;font-weight:600;margin-top:3px;display:flex;align-items:center;gap:2px}
+.up{color:#10B981}.dn{color:#EF4444}.nt{color:#6B7280}.wn{color:#F59E0B}
+.kpi-delta svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* Content grid */
+.cg{display:grid;grid-template-columns:1fr 380px;gap:14px;margin-bottom:14px}
+
+/* Panel */
+.panel{background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden}
+.ph{display:flex;align-items:center;justify-content:space-between;padding:13px 18px;border-bottom:1px solid #F3F4F6}
+.ph-title{font-size:13.5px;font-weight:600;color:#111827}
+.ph-sub{font-size:12px;color:#9CA3AF;margin-left:7px}
+.pa{display:flex;align-items:center;gap:5px}
+.btn-s{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;border-radius:6px;font-size:11.5px;font-weight:500;transition:all .15s}
+.btn-s svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.b-out{background:#fff;color:#374151;border:1px solid #E5E7EB}
+.b-out:hover{background:#F9FAFB}
+.b-pri{background:#2563EB;color:#fff;border:none;box-shadow:0 2px 5px rgba(37,99,235,.2)}
+.b-pri:hover{background:#1D4ED8}
+.b-act{background:#EFF6FF;color:#2563EB;border:1px solid #BFDBFE;font-weight:600}
+
+/* Project table */
+.ptbl{width:100%;border-collapse:collapse}
+.ptbl th{font-size:10.5px;font-weight:700;color:#9CA3AF;letter-spacing:.05em;text-transform:uppercase;padding:9px 14px;text-align:left;background:#FAFAFA;border-bottom:1px solid #F3F4F6}
+.ptbl th:last-child,.ptbl td:last-child{text-align:right}
+.ptbl td{padding:11px 14px;border-bottom:1px solid #F9FAFB;font-size:12.5px;color:#374151;vertical-align:middle}
+.ptbl tr:last-child td{border-bottom:none}
+.ptbl tr:hover td{background:#FAFAFA}
+.p-code{font-size:10px;font-family:monospace;color:#9CA3AF}
+.p-name{font-size:12.5px;font-weight:600;color:#111827;display:block;margin-top:1px}
+.p-client{font-size:11px;color:#9CA3AF}
+.badge{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:9999px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-blue{background:#EFF6FF;color:#2563EB}
+.b-green{background:#F0FDF4;color:#16A34A}
+.b-red{background:#FEF2F2;color:#DC2626}
+.pb{display:flex;align-items:center;gap:5px}
+.pb-bar{height:4px;width:56px;border-radius:9999px;background:#E5E7EB;overflow:hidden}
+.pb-fill{height:100%;border-radius:9999px}
+.pb-pct{font-size:11.5px;font-weight:600;color:#374151;white-space:nowrap}
+.pb-pct.r{color:#EF4444}
+.pr{font-size:12.5px;font-weight:700;white-space:nowrap}
+.pr.g{color:#10B981}.pr.b{color:#2563EB}.pr.r{color:#EF4444}
+
+/* Chart */
+.chart-wrap{padding:14px 16px}
+.chart-legend{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:4px;font-size:11px;color:#6B7280}
+.leg-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+
+/* Warning */
+.warn-panel{background:#fff;border:1px solid #FEE2E2;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.warn-hd{background:#FEF2F2;border-bottom:1px solid #FEE2E2;padding:11px 18px;display:flex;align-items:center;gap:7px}
+.warn-hd-txt{font-size:13px;font-weight:600;color:#DC2626}
+.warn-cnt{width:17px;height:17px;border-radius:9999px;background:#DC2626;color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.warn-row{padding:13px 18px;border-bottom:1px solid #FEF2F2;display:flex;align-items:center;gap:12px}
+.warn-row:last-child{border-bottom:none}
+.warn-ico{width:34px;height:34px;border-radius:9px;background:#FEF2F2;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.warn-ico svg{width:16px;height:16px;fill:none;stroke:#DC2626;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.warn-name{font-size:13px;font-weight:600;color:#111827}
+.warn-detail{font-size:11.5px;color:#6B7280;margin-top:1px}
+.warn-val{font-size:16px;font-weight:800;color:#EF4444;text-align:right}
+.warn-tgt{font-size:10.5px;color:#9CA3AF;text-align:right;margin-top:1px}
+.warn-gap{font-size:10px;color:#EF4444;font-weight:600;text-align:right}
+.warn-btn{padding:5px 11px;border-radius:7px;font-size:11.5px;font-weight:500;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;transition:all .15s;flex-shrink:0}
+.warn-btn:hover{background:#FEE2E2}
+
+/* SVG icon helper */
+svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* ── 3단 사이드바 (진행/준공 하위 토글) ── */
+.sb-sub-toggle{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 6px 6px 0;border-radius:7px;cursor:pointer;
+  transition:all .15s;margin-bottom:1px;
+}
+.sb-sub-toggle:hover{background:#F3F4F6}
+.sb-sub-toggle-left{display:flex;align-items:center;gap:5px;font-size:12px;color:#374151;font-weight:600}
+.sb-arr2{width:11px;height:11px;stroke:#9CA3AF;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;flex-shrink:0}
+.sb-arr2.open{transform:rotate(180deg)}
+.sb-sub2{padding-left:12px;display:none;margin-bottom:2px}
+.sb-sub2.open{display:block}
+.sb-sub2-row{
+  display:flex;align-items:center;gap:5px;
+  padding:5px 6px;border-radius:6px;
+  font-size:11.5px;color:#6B7280;font-weight:400;
+  cursor:pointer;transition:all .15s;margin-bottom:1px;
+}
+.sb-sub2-row:hover{background:#F3F4F6;color:#374151}
+.sb-sub2-row svg{width:12px;height:12px;flex-shrink:0;stroke:#9CA3AF;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="header">
+
+  <!-- Logo -->
+  <div class="h-logo">
+    <svg viewBox="0 0 64 64" width="30" height="30" style="filter:drop-shadow(0 2px 6px rgba(29,78,216,.25));flex-shrink:0">
+      <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#1D4ED8"/><stop offset="100%" stop-color="#06B6D4"/>
+      </linearGradient></defs>
+      <circle cx="32" cy="32" r="32" fill="url(#g1)"/>
+      <rect x="12" y="40" width="10" height="12" rx="2.5" fill="white" opacity=".25"/>
+      <rect x="26" y="31" width="10" height="21" rx="2.5" fill="white" opacity=".60"/>
+      <rect x="40" y="21" width="10" height="31" rx="2.5" fill="white" opacity=".95"/>
+      <polyline points="17,37 31,27 45,17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>
+    </svg>
+    <div>
+      <div class="h-logo-name">K-Progress</div>
+      <div class="h-logo-sub">건설사업부 성과 관제탑</div>
+    </div>
+  </div>
+
+  <!-- Nav -->
+  <nav class="h-nav">
+    <div class="nav-item">
+      <a href="#" class="nav-btn act">
+        <svg class="i" width="13" height="13" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        홈
+      </a>
+    </div>
+
+    <!-- 프로젝트 등록 -->
+    <div class="nav-item">
+      <a href="#" class="nav-btn">
+        프로젝트 등록
+        <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <div class="dd">
+        <div class="dd-sec">등록 관리</div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          신규 프로젝트 등록
+          <span class="dd-badge">NEW</span>
+        </div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          프로젝트 목록
+        </div>
+      </div>
+    </div>
+
+    <!-- 프로젝트 관리 -->
+    <div class="nav-item">
+      <a href="#" class="nav-btn">
+        프로젝트 관리
+        <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <div class="dd" style="min-width:214px">
+        <div class="dd-sec">계약</div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          계약 이력 관리
+        </div>
+        <div class="dd-div"></div>
+        <div class="dd-sec">원가</div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          원가 관리 (직접비·간접비)
+        </div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+          Excel 일괄 업로드
+        </div>
+        <div class="dd-div"></div>
+        <div class="dd-sec">서류·수금</div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          파일 보관함
+        </div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          수금 현황
+        </div>
+      </div>
+    </div>
+
+    <!-- 건설사업부 P&L -->
+    <div class="nav-item">
+      <a href="#" class="nav-btn">
+        건설사업부 P&amp;L
+        <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </a>
+      <div class="dd" style="min-width:200px">
+        <div class="dd-sec">손익 분석</div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          종합 손익 현황
+        </div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          건설사업부 손익
+        </div>
+        <div class="dd-row">
+          <svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          사업계획대비 달성율
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Right -->
+  <div class="h-right">
+    <span class="h-date">2026. 6. 2 (화)</span>
+    <div class="h-alert">
+      <div class="h-dot"></div>
+      경고 1건
+    </div>
+    <div class="h-user">
+      <div class="h-avatar">김</div>
+      <div>
+        <div class="h-uname">김은지 PL</div>
+        <div class="h-urole">건설사업부</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════ BODY ══════════ -->
+<div class="body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- ① 메인 -->
+    <div class="sb-item act" onclick="sbClick(this)">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#EFF6FF">
+          <svg stroke="#2563EB" stroke-width="1.8" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        </div>
+        <span class="sb-txt">메인 (종합 대시보드)</span>
+      </div>
+    </div>
+
+    <div class="sb-div"></div>
+
+    <!-- ② 프로젝트 등록 -->
+    <div class="sb-item" onclick="sbToggle(this)">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#F5F3FF">
+          <svg stroke="#7C3AED" stroke-width="1.8" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <span class="sb-txt">프로젝트 등록</span>
+      </div>
+      <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="sb-sub">
+      <div class="sb-sub-row"><div class="sb-dot"></div>신규 프로젝트</div>
+    </div>
+
+    <div class="sb-div"></div>
+
+    <!-- ③ 프로젝트 관리 -->
+    <div class="sb-item" onclick="sbToggle(this)">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#EFF6FF">
+          <svg stroke="#2563EB" stroke-width="1.8" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <span class="sb-txt">프로젝트 관리</span>
+      </div>
+      <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="sb-sub">
+      <!-- 진행 프로젝트 -->
+      <div class="sb-sub-toggle" onclick="sbToggle2(this)">
+        <div class="sb-sub-toggle-left">
+          <div class="sb-dot" style="background:#2563EB"></div>
+          진행 프로젝트
+        </div>
+        <svg class="sb-arr2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="sb-sub2">
+        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>부산 물류센터 신축공사</div>
+        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>울산 언양 공장 증설공사</div>
+        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>대구 공동주택 기계설비공사</div>
+      </div>
+      <!-- 준공 프로젝트 -->
+      <div class="sb-sub-toggle" onclick="sbToggle2(this)" style="margin-top:2px">
+        <div class="sb-sub-toggle-left">
+          <div class="sb-dot" style="background:#10B981"></div>
+          준공 프로젝트
+        </div>
+        <svg class="sb-arr2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="sb-sub2">
+        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>2026년</div>
+        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>2025년 이전</div>
+      </div>
+    </div>
+
+    <div class="sb-div"></div>
+
+    <!-- ④ 건설사업부 P&L -->
+    <div class="sb-item" onclick="sbToggle(this)">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#FFF7ED">
+          <svg stroke="#EA580C" stroke-width="1.8" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <span class="sb-txt">건설사업부 P&amp;L</span>
+      </div>
+      <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="sb-sub">
+      <div class="sb-sub-row"><div class="sb-dot"></div>종합 손익 현황</div>
+      <div class="sb-sub-row"><div class="sb-dot"></div>건설사업부 손익</div>
+      <div class="sb-sub-row"><div class="sb-dot"></div>사업계획대비 달성율</div>
+    </div>
+
+    <!-- Bottom -->
+    <div class="sb-bottom">
+      <div class="sb-quick">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#9CA3AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        도움말
+      </div>
+      <div class="sb-quick">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#9CA3AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        ERP 연동 상태
+        <span style="margin-left:auto;font-size:10px;color:#10B981;font-weight:600">시뮬레이션</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- Page header -->
+    <div class="pg-hd">
+      <div class="bc">홈 <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg> <span>종합 대시보드</span></div>
+      <div class="pg-title">종합 성과 관제탑</div>
+      <div class="pg-sub">건설사업부 전체 프로젝트 재무 현황 · 2026년 6월 기준</div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="qa">
+      <div class="qa-card">
+        <div class="qa-ico" style="background:#EFF6FF"><svg viewBox="0 0 24 24" stroke="#2563EB"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+        <div><div class="qa-title">신규 프로젝트 등록</div><div class="qa-sub">새 현장 추가</div></div>
+      </div>
+      <div class="qa-card">
+        <div class="qa-ico" style="background:#ECFDF5"><svg viewBox="0 0 24 24" stroke="#059669"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg></div>
+        <div><div class="qa-title">Excel 업로드</div><div class="qa-sub">원가 일괄 입력</div></div>
+      </div>
+      <div class="qa-card">
+        <div class="qa-ico" style="background:#F5F3FF"><svg viewBox="0 0 24 24" stroke="#7C3AED"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <div><div class="qa-title">파일 보관함</div><div class="qa-sub">계약서·서류 조회</div></div>
+      </div>
+      <div class="qa-card">
+        <div class="qa-ico" style="background:#FFF7ED"><svg viewBox="0 0 24 24" stroke="#EA580C"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div><div class="qa-title">P&L 리포트</div><div class="qa-sub">손익 현황 보기</div></div>
+      </div>
+    </div>
+
+    <!-- KPI -->
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-ico" style="background:linear-gradient(135deg,#1D4ED8,#2563EB);box-shadow:0 3px 8px rgba(29,78,216,.25)">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div><div class="kpi-lbl">전체 현장</div><div class="kpi-val">5<em>개</em></div><div class="kpi-delta nt"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>진행중 3 · 준공 2</div></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-ico" style="background:linear-gradient(135deg,#0891B2,#06B6D4);box-shadow:0 3px 8px rgba(8,145,178,.25)">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div><div class="kpi-lbl">시스템 매출 누계 (역산)</div><div class="kpi-val">296<em>억</em></div><div class="kpi-delta up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>ERP 대비 +14.2억</div></div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-ico" style="background:linear-gradient(135deg,#059669,#10B981);box-shadow:0 3px 8px rgba(5,150,105,.25)">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div><div class="kpi-lbl">평균 시스템 수익률</div><div class="kpi-val">15.1<em>%</em></div><div class="kpi-delta up"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>목표(8%) 대비 +7.1%p</div></div>
+      </div>
+    </div>
+
+    <!-- Content grid -->
+    <div class="cg">
+
+      <!-- Project table -->
+      <div class="panel">
+        <div class="ph">
+          <div><span class="ph-title">프로젝트 현황</span><span class="ph-sub">전체 5개 현장</span></div>
+          <div class="pa">
+            <button class="btn-s b-out">
+              <svg viewBox="0 0 24 24" class="i" width="11" height="11" stroke="currentColor" stroke-width="1.8"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+              필터
+            </button>
+            <button class="btn-s b-pri">
+              <svg viewBox="0 0 24 24" class="i" width="11" height="11" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              신규 등록
+            </button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="ptbl">
+            <thead>
+              <tr>
+                <th>프로젝트</th>
+                <th>상태</th>
+                <th>계약금액</th>
+                <th>진행률</th>
+                <th>시스템 매출</th>
+                <th>수익률</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="p-code">KK-2024-001</div>
+                  <div class="p-name">부산 물류센터 신축공사</div>
+                  <div class="p-client">부산광역시</div>
+                </td>
+                <td><span class="badge b-blue">진행중</span></td>
+                <td style="font-weight:600">150억</td>
+                <td><div class="pb"><div class="pb-bar"><div class="pb-fill" style="width:73%;background:linear-gradient(90deg,#2563EB,#06B6D4)"></div></div><span class="pb-pct">73%</span></div></td>
+                <td style="font-weight:600">109.5억</td>
+                <td><span class="pr b">16.7%</span></td>
+              </tr>
+              <tr style="background:#FFFBFB">
+                <td>
+                  <div class="p-code">KK-2024-002</div>
+                  <div class="p-name">울산 언양 공장 증설공사</div>
+                  <div class="p-client">금강공업㈜ 언양</div>
+                </td>
+                <td><span class="badge b-red">⚠ 경고</span></td>
+                <td style="font-weight:600">120억</td>
+                <td><div class="pb"><div class="pb-bar"><div class="pb-fill" style="width:52%;background:linear-gradient(90deg,#EF4444,#F97316)"></div></div><span class="pb-pct r">52%</span></div></td>
+                <td style="font-weight:600">62.4억</td>
+                <td><span class="pr r">4.2%</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="p-code">KK-2023-015</div>
+                  <div class="p-name">창원 산업단지 전기설비공사</div>
+                  <div class="p-client">창원시청</div>
+                </td>
+                <td><span class="badge b-green">준공</span></td>
+                <td style="font-weight:600">80억</td>
+                <td><div class="pb"><div class="pb-bar"><div class="pb-fill" style="width:100%;background:linear-gradient(90deg,#6366F1,#06B6D4)"></div></div><span class="pb-pct" style="color:#6366F1">100%</span></div></td>
+                <td style="font-weight:600">80억</td>
+                <td><span class="pr g">18.8%</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="p-code">KK-2024-003</div>
+                  <div class="p-name">대구 공동주택 기계설비공사</div>
+                  <div class="p-client">대구도시공사</div>
+                </td>
+                <td><span class="badge b-blue">진행중</span></td>
+                <td style="font-weight:600">50억</td>
+                <td><div class="pb"><div class="pb-bar"><div class="pb-fill" style="width:18%;background:linear-gradient(90deg,#2563EB,#06B6D4)"></div></div><span class="pb-pct">18%</span></div></td>
+                <td style="font-weight:600">9억</td>
+                <td><span class="pr b">12.0%</span></td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="p-code">KK-2023-012</div>
+                  <div class="p-name">부산 시청 소방설비공사</div>
+                  <div class="p-client">부산광역시</div>
+                </td>
+                <td><span class="badge b-green">준공</span></td>
+                <td style="font-weight:600">35억</td>
+                <td><div class="pb"><div class="pb-bar"><div class="pb-fill" style="width:100%;background:linear-gradient(90deg,#6366F1,#06B6D4)"></div></div><span class="pb-pct" style="color:#6366F1">100%</span></div></td>
+                <td style="font-weight:600">35억</td>
+                <td><span class="pr g">22.9%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Chart panel -->
+      <div class="panel">
+        <div class="ph">
+          <span class="ph-title">매출액 비교 (억원)</span>
+          <div class="pa">
+            <button class="btn-s b-act">시스템</button>
+            <button class="btn-s b-out">ERP</button>
+            <button class="btn-s b-out">수금</button>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <div class="chart-legend">
+            <div class="leg"><div class="leg-dot" style="background:#2563EB"></div>시스템 역산</div>
+            <div class="leg"><div class="leg-dot" style="background:#F59E0B"></div>ERP 실적</div>
+            <div class="leg"><div class="leg-dot" style="background:#10B981"></div>수금액</div>
+          </div>
+          <svg viewBox="0 0 340 210" style="width:100%;height:auto">
+            <!-- Grid -->
+            <line x1="32" y1="16" x2="336" y2="16" stroke="#F3F4F6" stroke-width="1"/>
+            <line x1="32" y1="57" x2="336" y2="57" stroke="#F3F4F6" stroke-width="1"/>
+            <line x1="32" y1="98" x2="336" y2="98" stroke="#F3F4F6" stroke-width="1"/>
+            <line x1="32" y1="139" x2="336" y2="139" stroke="#F3F4F6" stroke-width="1"/>
+            <line x1="32" y1="180" x2="336" y2="180" stroke="#E5E7EB" stroke-width="1"/>
+            <!-- Y labels -->
+            <text x="28" y="19" font-size="9" fill="#9CA3AF" text-anchor="end">120</text>
+            <text x="28" y="60" font-size="9" fill="#9CA3AF" text-anchor="end">90</text>
+            <text x="28" y="101" font-size="9" fill="#9CA3AF" text-anchor="end">60</text>
+            <text x="28" y="142" font-size="9" fill="#9CA3AF" text-anchor="end">30</text>
+            <text x="28" y="183" font-size="9" fill="#9CA3AF" text-anchor="end">0</text>
+
+            <!-- 부산물류: 109.5/95/80 → /120*164 = 149/130/110 -->
+            <rect x="38" y="31" width="11" height="149" rx="2" fill="#2563EB" opacity=".85"/>
+            <rect x="51" y="50" width="11" height="130" rx="2" fill="#F59E0B" opacity=".8"/>
+            <rect x="64" y="70" width="11" height="110" rx="2" fill="#10B981" opacity=".8"/>
+            <text x="60" y="195" font-size="7" fill="#6B7280" text-anchor="middle">부산물류</text>
+
+            <!-- 울산언양: 62.4/55/40 → 85/75/55 -->
+            <rect x="98" y="95" width="11" height="85" rx="2" fill="#2563EB" opacity=".85"/>
+            <rect x="111" y="105" width="11" height="75" rx="2" fill="#F59E0B" opacity=".8"/>
+            <rect x="124" y="125" width="11" height="55" rx="2" fill="#10B981" opacity=".8"/>
+            <text x="116" y="195" font-size="7" fill="#6B7280" text-anchor="middle">울산언양</text>
+            <text x="116" y="90" font-size="10" fill="#EF4444" text-anchor="middle">⚠</text>
+
+            <!-- 창원전기: 80/78/75 → 110/107/103 -->
+            <rect x="158" y="70" width="11" height="110" rx="2" fill="#2563EB" opacity=".85"/>
+            <rect x="171" y="73" width="11" height="107" rx="2" fill="#F59E0B" opacity=".8"/>
+            <rect x="184" y="77" width="11" height="103" rx="2" fill="#10B981" opacity=".8"/>
+            <text x="176" y="195" font-size="7" fill="#6B7280" text-anchor="middle">창원전기</text>
+
+            <!-- 대구기계: 9/0/0 → 12 -->
+            <rect x="218" y="168" width="11" height="12" rx="2" fill="#2563EB" opacity=".85"/>
+            <text x="232" y="195" font-size="7" fill="#6B7280" text-anchor="middle">대구기계</text>
+
+            <!-- 부산소방: 35/33/32 → 48/45/44 -->
+            <rect x="278" y="132" width="11" height="48" rx="2" fill="#2563EB" opacity=".85"/>
+            <rect x="291" y="135" width="11" height="45" rx="2" fill="#F59E0B" opacity=".8"/>
+            <rect x="304" y="136" width="11" height="44" rx="2" fill="#10B981" opacity=".8"/>
+            <text x="296" y="195" font-size="7" fill="#6B7280" text-anchor="middle">부산소방</text>
+          </svg>
+          <div style="text-align:center;font-size:10.5px;color:#9CA3AF;margin-top:2px">단위: 억원</div>
+        </div>
+      </div>
+    </div>
+
+
+  </main>
+</div>
+
+<script>
+// Sidebar toggle (1단 → 2단)
+function sbToggle(el) {
+  const sub = el.nextElementSibling;
+  const arr = el.querySelector('.sb-arr');
+  if (!sub || !sub.classList.contains('sb-sub')) return sbClick(el);
+  const isOpen = sub.classList.toggle('open');
+  if (arr) arr.classList.toggle('open', isOpen);
+  setActive(el);
+}
+// Sidebar toggle (2단 → 3단: 진행/준공 프로젝트 목록)
+function sbToggle2(el) {
+  const sub = el.nextElementSibling;
+  const arr = el.querySelector('.sb-arr2');
+  if (!sub) return;
+  const isOpen = sub.classList.toggle('open');
+  if (arr) arr.classList.toggle('open', isOpen);
+}
+function sbClick(el) { setActive(el); }
+function setActive(el) {
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('act'));
+  el.classList.add('act');
+}
+
+// Load Pretendard asynchronously (no blocking)
+(function(){
+  const l = document.createElement('link');
+  l.rel = 'stylesheet';
+  l.href = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css';
+  document.head.appendChild(l);
+})();
+</script>
+</body>
+</html>
