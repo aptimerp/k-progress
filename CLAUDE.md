@@ -115,6 +115,17 @@ SAC 5명 (총괄 이용철 + 담당 4명)
 - 프리뷰 서버 포트: 8501 (launch.json 기준)
 - 사용자가 별도로 요청하지 않아도 자동 적용
 
+## Git / 버전 관리
+- **원격 저장소**: `https://github.com/aptimerp/k-progress.git` (branch: `master`)
+- **커밋 시점**: 사용자가 명시적으로 요청할 때만 커밋·푸시
+- **커밋 제외 파일** (절대 커밋 금지):
+  - `.env.local` — API 키·환경변수
+  - `mcp.json` — Notion 토큰
+  - `*.db`, `*.sqlite` — 로컬 DB
+  - `.claude/settings.local.json` — 개인 설정
+- **커밋 메시지 형식**: `feat/fix/docs/chore: 한국어 요약` + Co-Authored-By 트레일러
+- **노션 마무리 업로드**: `mcp__notion-dueul__API-post-page` 로 자식 페이지 생성 (토글 형식)
+
 ## 워크플로우
 - /시작 → /계획 → /실행 → /검증 → /마무리 5단계 준수
 - 각 단계 산출물은 .planning/ 폴더에 보관
