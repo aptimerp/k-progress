@@ -120,3 +120,38 @@
 - Supabase 공용 계정 정보 미수령 (홍세민 PM) → Phase 2 착수 블로커
 - SAC API 정보 미수령 (이영호 차장) → Phase 5 착수 블로커
 - app_ui.html은 목업 (실제 Streamlit 구현 미착수)
+
+---
+
+## UI 프로토타입 2차 세션 (2026-06-04)
+
+### 핵심 결정사항
+- **프로젝트 상세 페이지 구조 확정**:
+  - 1단 탭: 계약관리 / 실행원가관리 / 준공관리
+  - 계약관리 내 2단 서브탭: 계약 정보 / 변경 이력
+  - 이력 관리: 기존 데이터 수정 + 별도 탭 이력 저장 방식
+  - 파일 첨부: 수주보고서·변경계약서·준공확인서 3종 개별 영역
+- **Git 저장소 연결**: `https://github.com/aptimerp/k-progress.git` (master)
+  - mcp.json (Notion 토큰), *.db, .env.local 커밋 제외
+- **Notion 마무리 업로드 방식 전환**:
+  - 기존: `API-patch-block-children` → paragraph·bullet만 지원 (토글 불가)
+  - 신규: `API-post-page` 자식 페이지 생성 → toggle 블록 완전 지원 ✅
+
+### 재사용 가능 패턴
+- **수정 모드 UX 패턴**: 조회 상태(form-value) ↔ 수정 상태(form-input) JS 토글
+  - `toggleEdit()` → 모든 value div 숨기고 input/select 표시
+  - `cancelEdit()` → 원래 상태로 복원
+  - 저장 시 변경 사유 모달 → `saveWithHistory()`
+- **이익률 자동계산**: `calcProfit()` — 계약금액·직접비·간접비 실시간 연동
+- **3탭 중첩 구조**: `.tab-btn` (1단) + `.sub-tab-btn` (2단) `switchTab()` / `switchSubTab()`
+- **Notion 자식 페이지 토글 업로드**: `API-post-page` children 배열에 toggle 블록 직접 삽입 가능
+
+### 산출물
+- `project_detail.html` — 59KB, 계약관리(수정모드·이력·첨부) + 실행원가 + 준공관리
+- `app_ui.html` — 39KB, 반복 수정 완료 버전
+- GitHub: 2개 커밋 (3bd42c7, 111d523) master 브랜치 push 완료
+
+### 미해결 이슈 (다음 세션으로)
+- Supabase 계정 수령 시 Phase 2 즉시 착수
+- project_detail.html HTML 목업 → 실제 Streamlit 구현은 Phase 3
+- 이전 노션 마무리 3건 paragraph 형식 → 수동 토글 변환 필요 시 알려주세요

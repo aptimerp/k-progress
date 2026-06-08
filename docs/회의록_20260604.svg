@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1480" font-family="'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif">
+
+  <!-- 배경 -->
+  <rect width="900" height="1480" fill="#F8F9FB"/>
+
+  <!-- 헤더 배경 -->
+  <rect x="0" y="0" width="900" height="110" fill="#1A3A5C"/>
+  <rect x="0" y="105" width="900" height="8" fill="#E8922A"/>
+
+  <!-- 헤더 텍스트 -->
+  <text x="48" y="44" font-size="13" fill="#A8C4E0" letter-spacing="2">KUMKANG INDUSTRY · ERP TRACK 2</text>
+  <text x="48" y="80" font-size="26" font-weight="bold" fill="#FFFFFF">회 의 록</text>
+  <text x="830" y="80" font-size="13" fill="#A8C4E0" text-anchor="end">MEETING MINUTES</text>
+
+  <!-- 메타 정보 카드 -->
+  <rect x="32" y="128" width="836" height="72" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2"/>
+
+  <!-- 메타 아이콘·텍스트 -->
+  <!-- 날짜 -->
+  <rect x="52" y="142" width="28" height="28" rx="6" fill="#EBF3FF"/>
+  <text x="66" y="161" font-size="14" text-anchor="middle" fill="#2563EB">📅</text>
+  <text x="88" y="154" font-size="11" fill="#64748B">회의일시</text>
+  <text x="88" y="170" font-size="13" font-weight="bold" fill="#1E293B">2026.06.04 (목)</text>
+
+  <line x1="228" y1="142" x2="228" y2="186" stroke="#E2E8F0" stroke-width="1.2"/>
+
+  <!-- 참석자 -->
+  <rect x="246" y="142" width="28" height="28" rx="6" fill="#F0FDF4"/>
+  <text x="260" y="161" font-size="14" text-anchor="middle" fill="#16A34A">👥</text>
+  <text x="282" y="154" font-size="11" fill="#64748B">참석자</text>
+  <text x="282" y="170" font-size="13" font-weight="bold" fill="#1E293B">김은지 · 이영호 · 박동희</text>
+
+  <line x1="500" y1="142" x2="500" y2="186" stroke="#E2E8F0" stroke-width="1.2"/>
+
+  <!-- 장소 -->
+  <rect x="518" y="142" width="28" height="28" rx="6" fill="#FFF7ED"/>
+  <text x="532" y="161" font-size="14" text-anchor="middle" fill="#EA580C">📍</text>
+  <text x="554" y="154" font-size="11" fill="#64748B">회의장소</text>
+  <text x="554" y="170" font-size="13" font-weight="bold" fill="#1E293B">금강공업 12층 AX팀</text>
+
+  <line x1="730" y1="142" x2="730" y2="186" stroke="#E2E8F0" stroke-width="1.2"/>
+
+  <!-- 구분 -->
+  <rect x="748" y="142" width="28" height="28" rx="6" fill="#FDF4FF"/>
+  <text x="762" y="161" font-size="14" text-anchor="middle" fill="#9333EA">🏷</text>
+  <text x="784" y="154" font-size="11" fill="#64748B">구분</text>
+  <text x="784" y="170" font-size="13" font-weight="bold" fill="#1E293B">ERP 전산화 기획</text>
+
+  <!-- 개요 박스 -->
+  <rect x="32" y="214" width="836" height="80" rx="10" fill="#1A3A5C" opacity="0.06" stroke="#1A3A5C" stroke-width="1" stroke-opacity="0.15"/>
+  <text x="52" y="236" font-size="12" font-weight="bold" fill="#1A3A5C">회의 목적</text>
+  <text x="52" y="256" font-size="12" fill="#334155">모듈러 사업부의 원가·공통비 배부 및 관련 전산화(ERP·웹 인터페이스) 추진 방향 정리,</text>
+  <text x="52" y="273" font-size="12" fill="#334155">사업장별 비용 이체·검증 로직과 우선순위 합의.</text>
+  <text x="52" y="287" font-size="11" fill="#64748B">데이터 취합 방식 / 공통비 처리 / 사업장 이체 방안 / 전산화 범위·일정 세부 논의</text>
+
+  <!-- 섹션 레이블 -->
+  <text x="48" y="322" font-size="13" font-weight="bold" fill="#1A3A5C" letter-spacing="1">주요 논의 주제</text>
+  <line x1="48" y1="328" x2="852" y2="328" stroke="#E8922A" stroke-width="2"/>
+
+  <!-- ===== 토픽 1: 기초자료·취합 방식 ===== -->
+  <rect x="32" y="340" width="836" height="156" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2"/>
+  <!-- 번호 뱃지 -->
+  <rect x="48" y="356" width="28" height="28" rx="14" fill="#2563EB"/>
+  <text x="62" y="375" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">1</text>
+  <text x="86" y="372" font-size="14" font-weight="bold" fill="#1E293B">기초자료 · 취합 방식</text>
+  <rect x="86" y="380" width="3" height="3" rx="1.5" fill="#2563EB"/>
+
+  <!-- 항목들 -->
+  <circle cx="60" cy="400" r="4" fill="#2563EB" opacity="0.4"/>
+  <text x="74" y="404" font-size="12" fill="#334155">기존 <tspan font-weight="bold">기초자료(1~11번 형식)</tspan> 기반 취합 — 숫자 입력만으로 가능하도록 양식 표준화</text>
+
+  <circle cx="60" cy="422" r="4" fill="#2563EB" opacity="0.4"/>
+  <text x="74" y="426" font-size="12" fill="#334155">퇴직급여·노무비·급여: 전산 기본 데이터 존재 →  <tspan font-weight="bold">부서기준 취합 + 개인별 확인 병행</tspan></text>
+
+  <circle cx="60" cy="444" r="4" fill="#2563EB" opacity="0.4"/>
+  <text x="74" y="448" font-size="12" fill="#334155">ERP 인사급여와 대조용 <tspan font-weight="bold">개인별 퍼센티지·검증 데이터</tspan> 필요</text>
+
+  <circle cx="60" cy="466" r="4" fill="#2563EB" opacity="0.4"/>
+  <text x="74" y="470" font-size="12" fill="#334155">선급비 등 일부 항목: 전산화 우선순위 제외 → <tspan font-weight="bold">수기 입력 후 추후 자동화</tspan> 전환</text>
+
+  <!-- 상태 뱃지 -->
+  <rect x="700" y="356" width="60" height="20" rx="10" fill="#DBEAFE"/>
+  <text x="730" y="370" font-size="10" font-weight="bold" fill="#2563EB" text-anchor="middle">합의 완료</text>
+
+  <!-- ===== 토픽 2: 공통비 배부 로직 ===== -->
+  <rect x="32" y="508" width="836" height="158" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2"/>
+  <rect x="48" y="524" width="28" height="28" rx="14" fill="#7C3AED"/>
+  <text x="62" y="543" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">2</text>
+  <text x="86" y="540" font-size="14" font-weight="bold" fill="#1E293B">공통비 배부 로직 · 코드(M104) 처리</text>
+
+  <circle cx="60" cy="568" r="4" fill="#7C3AED" opacity="0.4"/>
+  <text x="74" y="572" font-size="12" fill="#334155">직접비 제외 잔액 → <tspan font-weight="bold">공통비로 인식</tspan> (단순화) + 프로젝트 코드 <tspan font-weight="bold">M104</tspan> 활용 집계</text>
+
+  <circle cx="60" cy="590" r="4" fill="#7C3AED" opacity="0.4"/>
+  <text x="74" y="594" font-size="12" fill="#334155">자동 배부 조건: <tspan font-weight="bold">배부식 + 검증자료(계정 총액 일치 여부)</tspan> 반드시 필요</text>
+
+  <circle cx="60" cy="612" r="4" fill="#7C3AED" opacity="0.4"/>
+  <text x="74" y="616" font-size="12" fill="#334155">현재: 수기 관리로 보완 → 목표: <tspan font-weight="bold">자동 배부 기능 도입</tspan></text>
+
+  <!-- 흐름 다이어그램 -->
+  <rect x="74" y="628" width="120" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1"/>
+  <text x="134" y="645" font-size="11" fill="#6D28D9" text-anchor="middle">전체 비용</text>
+  <text x="202" y="645" font-size="14" fill="#7C3AED">→</text>
+  <rect x="214" y="628" width="100" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1"/>
+  <text x="264" y="645" font-size="11" fill="#6D28D9" text-anchor="middle">직접비 분리</text>
+  <text x="322" y="645" font-size="14" fill="#7C3AED">→</text>
+  <rect x="334" y="628" width="110" height="26" rx="6" fill="#7C3AED"/>
+  <text x="389" y="645" font-size="11" fill="#FFFFFF" text-anchor="middle">공통비(M104)</text>
+  <text x="452" y="645" font-size="14" fill="#7C3AED">→</text>
+  <rect x="464" y="628" width="120" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1"/>
+  <text x="524" y="645" font-size="11" fill="#6D28D9" text-anchor="middle">사업장별 배부</text>
+
+  <rect x="700" y="524" width="60" height="20" rx="10" fill="#EDE9FE"/>
+  <text x="730" y="538" font-size="10" font-weight="bold" fill="#7C3AED" text-anchor="middle">진행 중</text>
+
+  <!-- ===== 토픽 3: 사업장 이체 ===== -->
+  <rect x="32" y="678" width="836" height="168" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2"/>
+  <rect x="48" y="694" width="28" height="28" rx="14" fill="#059669"/>
+  <text x="62" y="713" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">3</text>
+  <text x="86" y="710" font-size="14" font-weight="bold" fill="#1E293B">사업장 · 비용 이체 (진천 → 보은)</text>
+
+  <circle cx="60" cy="734" r="4" fill="#059669" opacity="0.4"/>
+  <text x="74" y="738" font-size="12" fill="#334155">보은 공장(보험공장)으로 이체 시 <tspan font-weight="bold">전산 로직·오류 감소</tspan> → 전산화 수월</text>
+
+  <circle cx="60" cy="756" r="4" fill="#059669" opacity="0.4"/>
+  <text x="74" y="760" font-size="12" fill="#334155">유형자산: 당장 이동 불가 → <tspan font-weight="bold">비용만 우선 이체</tspan> 검토</text>
+
+  <circle cx="60" cy="778" r="4" fill="#059669" opacity="0.4"/>
+  <text x="74" y="782" font-size="12" fill="#334155">급여·4대보험·예수금 귀속 문제 → <tspan font-weight="bold">인사·회계 검토 병행</tspan> 필수</text>
+
+  <circle cx="60" cy="800" r="4" fill="#059669" opacity="0.4"/>
+  <text x="74" y="804" font-size="12" fill="#334155">일부 인력(자격증·현지 근무) 이전 불가 →<tspan font-weight="bold"> 부서 기준 조회 로직 병행 적용</tspan></text>
+
+  <!-- 이체 방향 시각화 -->
+  <rect x="74" y="818" width="90" height="26" rx="6" fill="#D1FAE5" stroke="#059669" stroke-width="1.2"/>
+  <text x="119" y="835" font-size="12" font-weight="bold" fill="#065F46" text-anchor="middle">진천 공장</text>
+  <text x="180" y="835" font-size="18" fill="#059669">⟶</text>
+  <rect x="204" y="818" width="90" height="26" rx="6" fill="#059669"/>
+  <text x="249" y="835" font-size="12" font-weight="bold" fill="#FFFFFF" text-anchor="middle">보은 공장</text>
+  <text x="310" y="828" font-size="10" fill="#64748B">비용만 우선</text>
+  <text x="310" y="840" font-size="10" fill="#64748B">(유형자산 제외)</text>
+
+  <rect x="700" y="694" width="60" height="20" rx="10" fill="#D1FAE5"/>
+  <text x="730" y="708" font-size="10" font-weight="bold" fill="#059669" text-anchor="middle">검토 중</text>
+
+  <!-- ===== 토픽 4: ERP·웹 개발 일정 ===== -->
+  <rect x="32" y="858" width="836" height="192" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2"/>
+  <rect x="48" y="874" width="28" height="28" rx="14" fill="#E8922A"/>
+  <text x="62" y="893" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">4</text>
+  <text x="86" y="890" font-size="14" font-weight="bold" fill="#1E293B">ERP · 웹 화면 개발 및 일정</text>
+
+  <circle cx="60" cy="914" r="4" fill="#E8922A" opacity="0.5"/>
+  <text x="74" y="918" font-size="12" fill="#334155">ERP 프로젝트별 직접비·간접비 합계 출력 <tspan font-weight="bold">화면 2~3종</tspan> 개발</text>
+
+  <circle cx="60" cy="936" r="4" fill="#E8922A" opacity="0.5"/>
+  <text x="74" y="940" font-size="12" fill="#334155">전산업무요청서로 기능 요구사항 전달</text>
+
+  <circle cx="60" cy="958" r="4" fill="#E8922A" opacity="0.5"/>
+  <text x="74" y="962" font-size="12" fill="#334155">초기: <tspan font-weight="bold">엑셀 병행 운영</tspan> → 점진적 전환 권고</text>
+
+  <circle cx="60" cy="980" r="4" fill="#E8922A" opacity="0.5"/>
+  <text x="74" y="984" font-size="12" fill="#334155">프로토타입(웹 화면): <tspan font-weight="bold">외부 연동 없이 내부 먼저 제작</tspan> 후 활용</text>
+
+  <!-- 타임라인 -->
+  <text x="74" y="1012" font-size="11" font-weight="bold" fill="#92400E">개발 일정 타임라인</text>
+  <!-- 라인 -->
+  <line x1="90" y1="1034" x2="800" y2="1034" stroke="#FED7AA" stroke-width="3" stroke-linecap="round"/>
+  <!-- 현재 -->
+  <circle cx="90" cy="1034" r="7" fill="#E8922A"/>
+  <text x="90" y="1055" font-size="10" fill="#92400E" text-anchor="middle">현재</text>
+  <text x="90" y="1067" font-size="10" fill="#92400E" text-anchor="middle">2026.06</text>
+  <!-- 8월 -->
+  <circle cx="380" cy="1034" r="7" fill="#E8922A"/>
+  <text x="380" y="1020" font-size="10" font-weight="bold" fill="#92400E" text-anchor="middle">화면 구현 목표</text>
+  <text x="380" y="1055" font-size="10" fill="#92400E" text-anchor="middle">2026.08 말</text>
+  <!-- 10월 -->
+  <circle cx="660" cy="1034" r="9" fill="#1A3A5C"/>
+  <text x="660" y="1019" font-size="10" font-weight="bold" fill="#1A3A5C" text-anchor="middle">구축 완료 목표</text>
+  <text x="660" y="1055" font-size="10" fill="#1A3A5C" text-anchor="middle">2026.10 전</text>
+
+  <rect x="700" y="874" width="60" height="20" rx="10" fill="#FFEDD5"/>
+  <text x="730" y="888" font-size="10" font-weight="bold" fill="#C2410C" text-anchor="middle">요구 확정</text>
+
+  <!-- ===== 토픽 5: 재고·수불부 ===== -->
+  <rect x="32" y="1062" width="836" height="148" rx="10" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2"/>
+  <rect x="48" y="1078" width="28" height="28" rx="14" fill="#DC2626"/>
+  <text x="62" y="1097" font-size="14" font-weight="bold" fill="#FFFFFF" text-anchor="middle">5</text>
+  <text x="86" y="1094" font-size="14" font-weight="bold" fill="#1E293B">재고 · 원재료 수불부 처리와 현실적 한계</text>
+
+  <circle cx="60" cy="1118" r="4" fill="#DC2626" opacity="0.4"/>
+  <text x="74" y="1122" font-size="12" fill="#334155">원재료 수불·단가 변동 → <tspan font-weight="bold">실시간 전산화 복잡</tspan> (합의)</text>
+
+  <circle cx="60" cy="1140" r="4" fill="#DC2626" opacity="0.4"/>
+  <text x="74" y="1144" font-size="12" fill="#334155">현실 방식: 사업장 <tspan font-weight="bold">엑셀 월별 불출 금액 관리</tspan> + 회계 기말 조사·조정 보완</text>
+
+  <circle cx="60" cy="1162" r="4" fill="#DC2626" opacity="0.4"/>
+  <text x="74" y="1166" font-size="12" fill="#334155">제공품: 현재 <tspan font-weight="bold">전표 기준</tspan> 처리</text>
+
+  <circle cx="60" cy="1184" r="4" fill="#DC2626" opacity="0.4"/>
+  <text x="74" y="1188" font-size="12" fill="#334155">세부 수불 전산화: <tspan font-weight="bold">타 사업장 통일 표준 마련 후</tspan> 시작</text>
+
+  <rect x="700" y="1078" width="60" height="20" rx="10" fill="#FEE2E2"/>
+  <text x="730" y="1092" font-size="10" font-weight="bold" fill="#DC2626" text-anchor="middle">후순위</text>
+
+  <!-- ===== 결론 카드 ===== -->
+  <rect x="32" y="1224" width="836" height="200" rx="10" fill="#1A3A5C"/>
+
+  <text x="52" y="1254" font-size="14" font-weight="bold" fill="#E8922A" letter-spacing="1">결론 및 운영 원칙</text>
+  <line x1="52" y1="1262" x2="848" y2="1262" stroke="#E8922A" stroke-width="1" stroke-opacity="0.4"/>
+
+  <!-- 결론 항목 -->
+  <rect x="52" y="1274" width="8" height="8" rx="2" fill="#E8922A"/>
+  <text x="68" y="1283" font-size="12" fill="#CBD5E1">기초자료 전산 구축 + 핵심 출력물(ERP 화면) <tspan fill="#FFFFFF" font-weight="bold">우선 개발</tspan></text>
+
+  <rect x="52" y="1298" width="8" height="8" rx="2" fill="#E8922A"/>
+  <text x="68" y="1307" font-size="12" fill="#CBD5E1">복잡·변동 잦은 항목: <tspan fill="#FFFFFF" font-weight="bold">수기 병행 후 후순위 자동화</tspan></text>
+
+  <rect x="52" y="1322" width="8" height="8" rx="2" fill="#E8922A"/>
+  <text x="68" y="1331" font-size="12" fill="#CBD5E1">비용 이체(보은) + 부서기반 검증 로직 병행 → <tspan fill="#FFFFFF" font-weight="bold">전산화 난이도 절감</tspan></text>
+
+  <rect x="52" y="1346" width="8" height="8" rx="2" fill="#E8922A"/>
+  <text x="68" y="1355" font-size="12" fill="#CBD5E1">단계별 병행(엑셀 유지 + 전산화): <tspan fill="#FFFFFF" font-weight="bold">최소 1년 검토 병행 권장</tspan></text>
+
+  <rect x="52" y="1370" width="8" height="8" rx="2" fill="#E8922A"/>
+  <text x="68" y="1379" font-size="12" fill="#CBD5E1">검증자료 확보 + <tspan fill="#FFFFFF" font-weight="bold">회계 승인 프로세스</tspan> 필수 재확인</text>
+
+  <!-- 푸터 -->
+  <rect x="0" y="1440" width="900" height="40" fill="#1A3A5C" opacity="0.8"/>
+  <text x="450" y="1464" font-size="11" fill="#94A3B8" text-anchor="middle">금강공업 AX팀 · ERP Track 2 · K-Progress 프로젝트 — 2026.06.04</text>
+
+</svg>
