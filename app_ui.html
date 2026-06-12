@@ -293,7 +293,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
       </a>
       <div class="dd">
         <div class="dd-sec">등록 관리</div>
-        <div class="dd-row">
+        <div class="dd-row" onclick="location.href='project_new.html'">
           <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
           신규 프로젝트 등록
           <span class="dd-badge">NEW</span>
@@ -348,7 +348,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
       </a>
       <div class="dd" style="min-width:200px">
         <div class="dd-sec">손익 분석</div>
-        <div class="dd-row">
+        <div class="dd-row" onclick="location.href='pl_overview.html'">
           <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
           종합 손익 현황
         </div>
@@ -366,7 +366,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
 
   <!-- Right -->
   <div class="h-right">
-    <span class="h-date">2026. 6. 2 (화)</span>
+    <span class="h-date" id="h-date"></span>
     <div class="h-alert">
       <div class="h-dot"></div>
       경고 1건
@@ -410,7 +410,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
       <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="sb-sub">
-      <div class="sb-sub-row"><div class="sb-dot"></div>신규 프로젝트</div>
+      <div class="sb-sub-row" onclick="location.href='project_new.html'" style="cursor:pointer"><div class="sb-dot"></div>신규 프로젝트</div>
     </div>
 
     <div class="sb-div"></div>
@@ -435,7 +435,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
         <svg class="sb-arr2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="sb-sub2">
-        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>부산 물류센터 신축공사</div>
+        <div class="sb-sub2-row" onclick="location.href='project_detail.html'" style="cursor:pointer"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>부산 물류센터 신축공사</div>
         <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>울산 언양 공장 증설공사</div>
         <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>대구 공동주택 기계설비공사</div>
       </div>
@@ -466,13 +466,17 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
       <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="sb-sub">
-      <div class="sb-sub-row"><div class="sb-dot"></div>종합 손익 현황</div>
+      <div class="sb-sub-row" onclick="location.href='pl_overview.html'" style="cursor:pointer"><div class="sb-dot"></div>종합 손익 현황</div>
       <div class="sb-sub-row"><div class="sb-dot"></div>건설사업부 손익</div>
       <div class="sb-sub-row"><div class="sb-dot"></div>사업계획대비 달성율</div>
     </div>
 
     <!-- Bottom -->
     <div class="sb-bottom">
+      <div class="sb-quick" onclick="location.href='admin.html'" style="color:#7C3AED;font-weight:600">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        관리자 설정
+      </div>
       <div class="sb-quick">
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#9CA3AF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
         도움말
@@ -497,7 +501,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
 
     <!-- Quick actions -->
     <div class="qa">
-      <div class="qa-card">
+      <div class="qa-card" onclick="location.href='project_new.html'" style="cursor:pointer">
         <div class="qa-ico" style="background:#EFF6FF"><svg viewBox="0 0 24 24" stroke="#2563EB"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
         <div><div class="qa-title">신규 프로젝트 등록</div><div class="qa-sub">새 현장 추가</div></div>
       </div>
@@ -571,7 +575,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
               <tr>
                 <td>
                   <div class="p-code">KK-2024-001</div>
-                  <div class="p-name">부산 물류센터 신축공사</div>
+                  <div class="p-name" onclick="location.href='project_detail.html'" style="cursor:pointer;color:#2563EB">부산 물류센터 신축공사</div>
                   <div class="p-client">부산광역시</div>
                 </td>
                 <td><span class="badge b-blue">진행중</span></td>
@@ -731,6 +735,12 @@ function setActive(el) {
   l.rel = 'stylesheet';
   l.href = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css';
   document.head.appendChild(l);
+})();
+(function(){
+  const days = ['일','월','화','수','목','금','토'];
+  const now = new Date();
+  const txt = `${now.getFullYear()}. ${now.getMonth()+1}. ${now.getDate()} (${days[now.getDay()]})`;
+  document.getElementById('h-date').textContent = txt;
 })();
 </script>
 </body>

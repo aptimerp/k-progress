@@ -190,6 +190,8 @@ button{cursor:pointer;border:none;background:none;font:inherit}
 .file-type-label svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .file-drop{border:1.5px dashed #D1D5DB;border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;background:#FAFAFA}
 .file-drop:hover{border-color:#2563EB;background:#EFF6FF}
+.file-drop.drag-over{border-color:#2563EB;background:#EFF6FF;box-shadow:0 0 0 3px rgba(37,99,235,.12);transform:scale(1.01)}
+.file-drop > *{pointer-events:none} /* 자식 요소가 dragleave 오발화 막기 위해 */
 .file-drop-icon{width:28px;height:28px;border-radius:8px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
 .file-drop-icon svg{width:14px;height:14px;stroke:#9CA3AF;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .file-drop-txt{font-size:11.5px;color:#9CA3AF;margin-bottom:4px}
@@ -199,9 +201,33 @@ button{cursor:pointer;border:none;background:none;font:inherit}
 .file-item-icon svg{width:13px;height:13px;stroke:#DC2626;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .file-item-name{flex:1;font-size:12px;color:#374151;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .file-item-size{font-size:10.5px;color:#9CA3AF;flex-shrink:0}
-.file-item-del{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9CA3AF;transition:all .15s;flex-shrink:0}
+.file-item-del{width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9CA3AF;transition:all .15s;flex-shrink:0}
 .file-item-del:hover{background:#FEF2F2;color:#DC2626}
 .file-item-del svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.file-item-actions{display:flex;gap:3px;flex-shrink:0}
+.file-act-btn{width:24px;height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;border:1px solid #E5E7EB;background:#fff}
+.file-act-btn:hover{background:#EFF6FF;border-color:#BFDBFE}
+.file-act-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;color:#6B7280}
+.file-act-btn:hover svg{color:#2563EB}
+
+/* 파일 미리보기 모달 */
+.fv-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);z-index:600;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px}
+.fv-overlay.open{display:flex}
+.fv-box{background:#1E1B4B;border-radius:14px;width:100%;max-width:860px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.fv-hd{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.1);flex-shrink:0}
+.fv-title{flex:1;font-size:13px;font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fv-hd-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 12px;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;border:none;font-family:inherit}
+.fv-dl{background:#2563EB;color:#fff}
+.fv-dl:hover{background:#1D4ED8}
+.fv-close{background:rgba(255,255,255,.1);color:#fff}
+.fv-close:hover{background:rgba(255,255,255,.2)}
+.fv-hd-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fv-body{flex:1;overflow:auto;background:#fff;position:relative}
+.fv-img{width:100%;height:100%;object-fit:contain;display:block}
+.fv-iframe{width:100%;height:100%;border:none;min-height:500px}
+.fv-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:300px;gap:10px;color:#9CA3AF}
+.fv-placeholder svg{width:40px;height:40px;stroke:#D1D5DB;fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+.fv-placeholder p{font-size:13px}
 
 /* ── 변경 이력 테이블 ── */
 .hist-table{width:100%;border-collapse:collapse}
@@ -294,7 +320,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
     <div class="nav-item"><a href="app_ui.html" class="nav-btn">홈</a></div>
     <div class="nav-item">
       <a href="#" class="nav-btn">프로젝트 등록 <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
-      <div class="dd"><div class="dd-row"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>신규 프로젝트</div></div>
+      <div class="dd"><div class="dd-row" onclick="location.href='project_new.html'"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>신규 프로젝트</div></div>
     </div>
     <div class="nav-item">
       <a href="#" class="nav-btn act">프로젝트 관리 <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
@@ -310,7 +336,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
     <div class="nav-item">
       <a href="#" class="nav-btn">건설사업부 P&amp;L <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
       <div class="dd">
-        <div class="dd-row"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>종합 손익 현황</div>
+        <div class="dd-row" onclick="location.href='pl_overview.html'"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>종합 손익 현황</div>
         <div class="dd-row"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>건설사업부 손익</div>
         <div class="dd-row"><svg viewBox="0 0 24 24"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>사업계획대비 달성율</div>
       </div>
@@ -344,7 +370,7 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
       </div>
       <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
-    <div class="sb-sub"><div class="sb-sub-row"><div class="sb-dot"></div>신규 프로젝트</div></div>
+    <div class="sb-sub"><div class="sb-sub-row" onclick="location.href='project_new.html'" style="cursor:pointer"><div class="sb-dot"></div>신규 프로젝트</div></div>
     <div class="sb-div"></div>
     <div class="sb-item act" onclick="sbToggle(this)">
       <div class="sb-left">
@@ -381,11 +407,15 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
       <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="sb-sub">
-      <div class="sb-sub-row"><div class="sb-dot"></div>종합 손익 현황</div>
+      <div class="sb-sub-row" onclick="location.href='pl_overview.html'" style="cursor:pointer"><div class="sb-dot"></div>종합 손익 현황</div>
       <div class="sb-sub-row"><div class="sb-dot"></div>건설사업부 손익</div>
       <div class="sb-sub-row"><div class="sb-dot"></div>사업계획대비 달성율</div>
     </div>
     <div class="sb-bottom">
+      <div class="sb-quick" onclick="location.href='admin.html'" style="color:#7C3AED;font-weight:600">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        관리자 설정
+      </div>
       <div class="sb-quick"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>도움말</div>
     </div>
   </aside>
@@ -598,15 +628,11 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
                     <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                     수주보고서
                   </div>
-                  <div class="file-item">
-                    <div class="file-item-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
-                    <span class="file-item-name">수주보고서_KK2024001_v1.pdf</span>
-                    <span class="file-item-size">2.3MB</span>
-                    <div class="file-item-del"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
-                  </div>
-                  <div class="file-drop" style="margin-top:8px" onclick="alert('파일 선택')">
+                  <div id="fi-list-suju"></div>
+                  <input type="file" id="inp-suju" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls,.docx" style="display:none" onchange="handleUpload(this,'suju')">
+                  <div class="file-drop" data-input="inp-suju" onclick="document.getElementById('inp-suju').click()">
                     <div class="file-drop-icon"><svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg></div>
-                    <div class="file-drop-txt">수정본 업로드</div>
+                    <div class="file-drop-txt">파일을 여기에 드래그하거나</div>
                     <div class="file-drop-btn">파일 선택</div>
                   </div>
                 </div>
@@ -617,9 +643,26 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
                     <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                     변경계약서
                   </div>
-                  <div class="file-drop" onclick="alert('파일 선택')">
+                  <div id="fi-list-byun"></div>
+                  <input type="file" id="inp-byun" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls,.docx" style="display:none" onchange="handleUpload(this,'byun')">
+                  <div class="file-drop" data-input="inp-byun" onclick="document.getElementById('inp-byun').click()">
                     <div class="file-drop-icon"><svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg></div>
                     <div class="file-drop-txt">PDF 파일 드래그 or</div>
+                    <div class="file-drop-btn">파일 선택</div>
+                  </div>
+                </div>
+
+                <!-- 예상실행원가 -->
+                <div class="file-section">
+                  <div class="file-type-label">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    예상실행원가
+                  </div>
+                  <div id="fi-list-execost"></div>
+                  <input type="file" id="inp-execost" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls,.docx" style="display:none" onchange="handleUpload(this,'execost')">
+                  <div class="file-drop" data-input="inp-execost" onclick="document.getElementById('inp-execost').click()">
+                    <div class="file-drop-icon"><svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg></div>
+                    <div class="file-drop-txt">Excel / PDF 드래그 or</div>
                     <div class="file-drop-btn">파일 선택</div>
                   </div>
                 </div>
@@ -630,7 +673,9 @@ svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;
                     <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                     준공확인서
                   </div>
-                  <div class="file-drop" onclick="alert('파일 선택')">
+                  <div id="fi-list-jungong"></div>
+                  <input type="file" id="inp-jungong" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls,.docx" style="display:none" onchange="handleUpload(this,'jungong')">
+                  <div class="file-drop" data-input="inp-jungong" onclick="document.getElementById('inp-jungong').click()">
                     <div class="file-drop-icon"><svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg></div>
                     <div class="file-drop-txt">준공 후 업로드</div>
                     <div class="file-drop-btn">파일 선택</div>
@@ -985,6 +1030,168 @@ function sbToggle2(el) {
 
 // 폰트 로드
 (function(){ const l = document.createElement('link'); l.rel='stylesheet'; l.href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css'; document.head.appendChild(l); })();
+
+/* ── 파일 첨부 & 미리보기 ── */
+const fileStore = {}; // key(suju/byun/jungong) → [{name,size,url,type}]
+
+function fmtSize(b){ return b<1024*1024 ? (b/1024).toFixed(1)+'KB' : (b/1024/1024).toFixed(1)+'MB'; }
+
+function extIcon(name){
+  const ext = name.split('.').pop().toLowerCase();
+  if(['pdf'].includes(ext)) return '#DC2626';
+  if(['png','jpg','jpeg','gif','webp'].includes(ext)) return '#059669';
+  if(['xlsx','xls'].includes(ext)) return '#16A34A';
+  if(['docx','doc'].includes(ext)) return '#2563EB';
+  return '#6B7280';
+}
+
+function isPreviewable(name){
+  const ext = name.split('.').pop().toLowerCase();
+  return ['pdf','png','jpg','jpeg','gif','webp'].includes(ext);
+}
+
+function renderFileItem(key, idx){
+  const f = fileStore[key][idx];
+  const color = extIcon(f.name);
+  const ext = f.name.split('.').pop().toUpperCase();
+  const canPreview = isPreviewable(f.name);
+  return `<div class="file-item" data-key="${key}" data-idx="${idx}" style="margin-top:6px">
+    <div class="file-item-icon" style="background:${color}18">
+      <svg viewBox="0 0 24 24" style="stroke:${color}"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="4.5" y="19" style="font-size:5px;fill:${color};stroke:none;font-weight:700;font-family:sans-serif">${ext}</text></svg>
+    </div>
+    <span class="file-item-name" title="${f.name}">${f.name}</span>
+    <span class="file-item-size">${f.size}</span>
+    <div class="file-item-actions">
+      ${canPreview ? `<div class="file-act-btn" title="미리보기" onclick="openPreview('${key}',${idx})">
+        <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>` : `<div class="file-act-btn" title="미리보기 불가" style="opacity:.35;cursor:not-allowed">
+        <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>`}
+      <div class="file-act-btn" title="다운로드" onclick="downloadFileByKey('${key}',${idx})">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </div>
+      <div class="file-item-del" title="삭제" onclick="deleteFileByKey('${key}',${idx})">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </div>
+    </div>
+  </div>`;
+}
+
+function refreshList(key){
+  const el = document.getElementById('fi-list-'+key);
+  if(!el) return;
+  el.innerHTML = (fileStore[key]||[]).map((_,i)=>renderFileItem(key,i)).join('');
+}
+
+function handleUpload(input, key){
+  const files = Array.from(input.files);
+  if(!fileStore[key]) fileStore[key]=[];
+  files.forEach(f=>{
+    fileStore[key].push({ name:f.name, size:fmtSize(f.size), url:URL.createObjectURL(f), type:f.type });
+  });
+  refreshList(key);
+  input.value='';
+}
+
+function deleteFileByKey(key, idx){
+  if(!confirm('파일을 삭제하시겠습니까?')) return;
+  URL.revokeObjectURL(fileStore[key][idx].url);
+  fileStore[key].splice(idx,1);
+  refreshList(key);
+}
+
+function downloadFileByKey(key, idx){
+  const f = fileStore[key][idx];
+  const a = document.createElement('a');
+  a.href = f.url; a.download = f.name; a.click();
+}
+
+// 기존 샘플 파일(수주보고서) 미리보기/다운로드
+function previewFile(btn){
+  const item = btn.closest('.file-item');
+  const name = item.querySelector('.file-item-name').textContent;
+  openPreviewByName(name, null);
+}
+function downloadFile(btn){
+  alert('실제 연동 시 서버에서 파일을 다운로드합니다.\n파일명: ' + btn.closest('.file-item').querySelector('.file-item-name').textContent);
+}
+function removeFile(btn){ if(confirm('파일을 삭제하시겠습니까?')) btn.closest('.file-item').remove(); }
+
+function openPreview(key, idx){
+  const f = fileStore[key][idx];
+  openPreviewByName(f.name, f.url);
+}
+
+function openPreviewByName(name, url){
+  const ext = name.split('.').pop().toLowerCase();
+  const body = document.getElementById('fv-body');
+  document.getElementById('fv-title').textContent = name;
+  // 다운로드 버튼
+  const dlBtn = document.getElementById('fv-dl-btn');
+  dlBtn.onclick = url ? ()=>{ const a=document.createElement('a');a.href=url;a.download=name;a.click(); }
+                      : ()=>alert('실제 연동 시 서버에서 다운로드됩니다.');
+  if(['png','jpg','jpeg','gif','webp'].includes(ext) && url){
+    body.innerHTML = `<img class="fv-img" src="${url}" alt="${name}">`;
+  } else if(ext==='pdf' && url){
+    body.innerHTML = `<iframe class="fv-iframe" src="${url}#toolbar=1"></iframe>`;
+  } else {
+    body.innerHTML = `<div class="fv-placeholder">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <p>이 파일 형식은 브라우저 미리보기를 지원하지 않습니다.</p>
+      <p style="font-size:11px;color:#D1D5DB">${name}</p>
+    </div>`;
+  }
+  document.getElementById('fvModal').classList.add('open');
+}
+function closeFv(){ document.getElementById('fvModal').classList.remove('open'); }
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeFv(); });
+
+/* ── 드래그앤드롭 공통 초기화 (DOMContentLoaded 불필요 - 스크립트가 body 끝에 위치) ── */
+function initAllDropZones(){
+  document.querySelectorAll('.file-drop[data-input]').forEach(zone=>{
+    if(zone._dragInited) return; // 중복 방지
+    zone._dragInited = true;
+    const inputId = zone.dataset.input;
+
+    zone.addEventListener('dragenter', e=>{ e.preventDefault(); e.stopPropagation(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragover',  e=>{ e.preventDefault(); e.stopPropagation(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', e=>{ e.stopPropagation(); zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', e=>{
+      e.preventDefault(); e.stopPropagation();
+      zone.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if(!files.length) return;
+      const inp = document.getElementById(inputId);
+      const key = inputId.replace(/^inp-/, '');
+      if(!fileStore[key]) fileStore[key]=[];
+      Array.from(files).forEach(f=>{
+        fileStore[key].push({ name:f.name, size:fmtSize(f.size), url:URL.createObjectURL(f), type:f.type });
+      });
+      refreshList(key);
+    });
+  });
+}
+initAllDropZones();
 </script>
+
+<!-- ══ 파일 미리보기 모달 ══ -->
+<div class="fv-overlay" id="fvModal" onclick="if(event.target===this)closeFv()">
+  <div class="fv-box">
+    <div class="fv-hd">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      <span class="fv-title" id="fv-title"></span>
+      <button class="fv-hd-btn fv-dl" id="fv-dl-btn">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        다운로드
+      </button>
+      <button class="fv-hd-btn fv-close" onclick="closeFv()">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        닫기
+      </button>
+    </div>
+    <div class="fv-body" id="fv-body"></div>
+  </div>
+</div>
+
 </body>
 </html>

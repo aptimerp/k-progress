@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>신규 프로젝트 등록 | K-Progress</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px;height:100%}
+body{
+  font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background:#F3F4F6;color:#111827;height:100%;word-break:keep-all;
+  display:flex;flex-direction:column;
+}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;background:none;font:inherit}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-thumb{background:rgba(0,0,0,.12);border-radius:9999px}
+
+/* ══ HEADER ══ */
+.header{height:56px;background:#fff;border-bottom:1px solid #E5E7EB;display:flex;align-items:center;padding:0 16px;position:sticky;top:0;z-index:200;flex-shrink:0}
+.h-logo{display:flex;align-items:center;gap:10px;width:228px;flex-shrink:0;padding-right:16px;border-right:1px solid #F3F4F6}
+.h-logo-name{font-size:15px;font-weight:700;color:#111827;letter-spacing:-.01em;line-height:1}
+.h-logo-sub{font-size:10px;color:#9CA3AF;font-weight:500;margin-top:2px}
+.h-nav{display:flex;align-items:stretch;flex:1;height:100%;padding:0 4px}
+.nav-item{position:relative;display:flex;align-items:center}
+.nav-btn{display:flex;align-items:center;gap:4px;padding:0 13px;height:100%;font-size:13px;font-weight:500;color:#374151;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+.nav-btn:hover,.nav-item:hover .nav-btn{color:#2563EB;background:#F9FAFB}
+.nav-btn.act{color:#2563EB;border-bottom-color:#2563EB;font-weight:600}
+.nav-chevron{width:11px;height:11px;stroke:#9CA3AF;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.nav-item:hover .nav-chevron{transform:rotate(180deg);stroke:#2563EB}
+.dd{display:none;position:absolute;top:100%;left:0;background:#fff;border:1px solid #E5E7EB;border-radius:12px;min-width:196px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.10);z-index:300}
+.nav-item:hover .dd{display:block}
+.dd-row{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;font-size:12.5px;color:#374151;font-weight:500;cursor:pointer;transition:all .15s}
+.dd-row:hover{background:#EFF6FF;color:#2563EB}
+.dd-row svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.7}
+.dd-div{height:1px;background:#F3F4F6;margin:4px 0}
+.dd-sec{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9CA3AF;padding:6px 10px 3px}
+.dd-badge{margin-left:auto;background:#EDE9FE;color:#7C3AED;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
+.h-right{display:flex;align-items:center;gap:8px;margin-left:auto;padding-left:12px;flex-shrink:0}
+.h-date{font-size:11.5px;color:#9CA3AF}
+.h-user{display:flex;align-items:center;gap:7px;padding:4px 12px 4px 5px;border-radius:9999px;background:#F9FAFB;border:1px solid #E5E7EB;cursor:pointer}
+.h-avatar{width:28px;height:28px;border-radius:9999px;background:linear-gradient(135deg,#1D4ED8,#06B6D4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0}
+.h-uname{font-size:12px;font-weight:600;color:#111827}
+.h-urole{font-size:10px;color:#9CA3AF}
+
+/* ══ BODY ══ */
+.body{display:flex;flex:1;overflow:hidden;min-height:0}
+
+/* ══ SIDEBAR ══ */
+.sidebar{width:228px;flex-shrink:0;background:#fff;border-right:1px solid #E5E7EB;overflow-y:auto;padding:10px 10px 20px;display:flex;flex-direction:column}
+.sb-item{display:flex;align-items:center;justify-content:space-between;padding:7px 7px;border-radius:8px;cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-item:hover{background:#F9FAFB}
+.sb-item.act{background:#EFF6FF}
+.sb-left{display:flex;align-items:center;gap:8px}
+.sb-icon{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sb-icon svg{width:13px;height:13px;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.sb-txt{font-size:12.5px;font-weight:500;color:#374151}
+.sb-item.act .sb-txt{color:#2563EB;font-weight:600}
+.sb-arr{width:13px;height:13px;stroke:#D1D5DB;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.sb-arr.open{transform:rotate(180deg)}
+.sb-sub{padding-left:34px;display:none}
+.sb-sub.open{display:block}
+.sb-sub-row{display:flex;align-items:center;gap:5px;padding:5px 6px;border-radius:6px;font-size:12px;color:#6B7280;font-weight:500;cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-sub-row:hover{background:#F3F4F6;color:#374151}
+.sb-sub-row.act{color:#2563EB;background:#EFF6FF;font-weight:600}
+.sb-dot{width:4px;height:4px;border-radius:9999px;background:#D1D5DB;flex-shrink:0}
+.sb-sub-row.act .sb-dot{background:#2563EB}
+.sb-div{height:1px;background:#F3F4F6;margin:6px 0}
+.sb-sub-toggle{display:flex;align-items:center;justify-content:space-between;padding:6px 6px 6px 0;border-radius:7px;cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-sub-toggle:hover{background:#F3F4F6}
+.sb-sub-toggle-left{display:flex;align-items:center;gap:5px;font-size:12px;color:#374151;font-weight:600}
+.sb-arr2{width:11px;height:11px;stroke:#9CA3AF;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s;flex-shrink:0}
+.sb-arr2.open{transform:rotate(180deg)}
+.sb-sub2{padding-left:12px;display:none;margin-bottom:2px}
+.sb-sub2.open{display:block}
+.sb-sub2-row{display:flex;align-items:center;gap:5px;padding:5px 6px;border-radius:6px;font-size:11.5px;color:#6B7280;cursor:pointer;transition:all .15s;margin-bottom:1px}
+.sb-sub2-row:hover{background:#F3F4F6;color:#374151}
+.sb-sub2-row svg{width:12px;height:12px;flex-shrink:0;stroke:#9CA3AF;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.sb-bottom{margin-top:auto;padding-top:10px;border-top:1px solid #F3F4F6}
+.sb-quick{display:flex;align-items:center;gap:7px;padding:6px 6px;border-radius:7px;font-size:12px;color:#6B7280;cursor:pointer;transition:all .15s}
+.sb-quick:hover{background:#F9FAFB;color:#374151}
+.sb-quick svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.7}
+
+/* ══ MAIN ══ */
+.main{flex:1;overflow-y:auto;padding:20px;min-width:0}
+
+/* Breadcrumb */
+.bc{display:flex;align-items:center;gap:4px;font-size:11.5px;color:#9CA3AF;margin-bottom:12px}
+.bc a{color:#9CA3AF;transition:color .15s}
+.bc a:hover{color:#2563EB}
+.bc svg{width:11px;height:11px;stroke:#D1D5DB;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bc-cur{color:#374151;font-weight:600}
+
+/* Page header */
+.pg-hd{margin-bottom:20px}
+.pg-title{font-size:19px;font-weight:700;color:#111827;letter-spacing:-.01em}
+.pg-sub{font-size:12.5px;color:#6B7280;margin-top:3px}
+
+/* Form layout */
+.form-layout{display:grid;grid-template-columns:1fr 320px;gap:16px;align-items:start}
+
+/* Panel */
+.panel{background:#fff;border:1px solid #E5E7EB;border-radius:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden;margin-bottom:14px}
+.panel:last-child{margin-bottom:0}
+.panel-hd{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid #F3F4F6}
+.panel-title{font-size:13.5px;font-weight:600;color:#111827;display:flex;align-items:center;gap:6px}
+.panel-body{padding:18px}
+
+/* Form elements */
+.form-section{margin-bottom:20px}
+.form-section:last-child{margin-bottom:0}
+.form-section-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9CA3AF;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #F3F4F6}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-group.span2{grid-column:span 2}
+.form-label{font-size:11.5px;font-weight:600;color:#6B7280}
+.form-label .req{color:#EF4444;margin-left:2px}
+.form-label .hint{font-size:10.5px;color:#9CA3AF;font-weight:400;margin-left:5px}
+.form-input{font-size:13px;color:#111827;padding:9px 12px;background:#fff;border:1.5px solid #E5E7EB;border-radius:8px;width:100%;outline:none;transition:border-color .2s;font-family:inherit}
+.form-input:focus{border-color:#2563EB;box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.form-input[readonly]{background:#F9FAFB;color:#6B7280}
+.form-select{font-size:13px;color:#111827;padding:9px 12px;background:#fff;border:1.5px solid #E5E7EB;border-radius:8px;width:100%;outline:none;transition:border-color .2s;font-family:inherit;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.form-select:focus{border-color:#2563EB;box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+
+/* Auto-generated code field */
+.code-preview{display:flex;align-items:center;gap:8px;padding:9px 12px;background:#F0F7FF;border:1.5px solid #BFDBFE;border-radius:8px}
+.code-val{font-size:14px;font-weight:700;color:#1D4ED8;font-family:monospace;flex:1}
+.code-badge{font-size:10px;font-weight:700;background:#DBEAFE;color:#1D4ED8;padding:2px 6px;border-radius:4px}
+
+/* 공종 selector (chip) */
+.chip-group{display:flex;flex-wrap:wrap;gap:6px}
+.chip{padding:5px 12px;border-radius:999px;font-size:12px;font-weight:500;color:#6B7280;border:1.5px solid #E5E7EB;cursor:pointer;transition:all .15s;background:#fff}
+.chip:hover{border-color:#93C5FD;color:#2563EB}
+.chip.sel{background:#2563EB;color:#fff;border-color:#2563EB}
+
+/* Computed fields */
+.computed-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid #F3F4F6}
+.computed-box{border-radius:10px;padding:12px 14px;text-align:center}
+.computed-box.total{background:#F0F7FF;border:1px solid #BFDBFE}
+.computed-box.profit{background:#F0FDF4;border:1px solid #A7F3D0}
+.computed-box.rate{background:linear-gradient(135deg,#EFF6FF,#F0FDF4);border:1px solid #BFDBFE}
+.computed-lbl{font-size:10.5px;color:#6B7280;margin-bottom:4px}
+.computed-val{font-size:16px;font-weight:800;letter-spacing:-.01em}
+.computed-val.blue{color:#1D4ED8}
+.computed-val.green{color:#059669}
+.computed-val.rate-col{color:#1D4ED8;font-size:22px}
+
+/* Target rate slider */
+.target-rate-wrap{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;margin-top:10px}
+.target-rate-lbl{font-size:12px;color:#92400E;font-weight:600;white-space:nowrap}
+.target-rate-input{width:60px;text-align:center;font-size:14px;font-weight:700;color:#B45309;padding:5px 8px;border:1.5px solid #FCD34D;border-radius:6px;outline:none;font-family:inherit}
+.target-rate-pct{font-size:12px;color:#92400E;font-weight:600}
+.target-rate-note{font-size:11px;color:#B45309;margin-left:auto}
+
+/* Cost item row */
+.cost-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #F9FAFB}
+.cost-row:last-child{border-bottom:none}
+.cost-name{font-size:12.5px;color:#374151;flex:1}
+.cost-field{width:150px;text-align:right;font-size:13px;font-weight:500;color:#111827;padding:6px 10px;border:1px solid #E5E7EB;border-radius:7px;outline:none;font-family:inherit}
+.cost-field:focus{border-color:#2563EB}
+.cost-unit{font-size:11px;color:#9CA3AF;width:20px;flex-shrink:0}
+.cost-subtotal{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:8px 12px;background:#F9FAFB;border-radius:7px}
+.cost-subtotal-lbl{font-size:11.5px;color:#9CA3AF}
+.cost-subtotal-val{font-size:14px;font-weight:700;color:#111827}
+
+/* File upload */
+.file-drop{border:1.5px dashed #D1D5DB;border-radius:10px;padding:16px;text-align:center;cursor:pointer;transition:all .2s;background:#FAFAFA}
+.file-drop:hover{border-color:#2563EB;background:#EFF6FF}
+.file-drop.drag-over{border-color:#2563EB;background:#EFF6FF;box-shadow:0 0 0 3px rgba(37,99,235,.12);transform:scale(1.01)}
+.file-drop > *{pointer-events:none}
+.fi-new-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#fff;border:1px solid #E5E7EB;border-radius:8px;margin-bottom:5px}
+.fi-new-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fi-new-icon svg{width:12px;height:12px;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fi-new-name{flex:1;font-size:12px;color:#374151;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fi-new-size{font-size:10.5px;color:#9CA3AF;flex-shrink:0}
+.fi-new-del{width:20px;height:20px;border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#9CA3AF;flex-shrink:0;transition:all .15s}
+.fi-new-del:hover{background:#FEF2F2;color:#DC2626}
+.fi-new-del svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.file-drop-icon{width:32px;height:32px;border-radius:9px;background:#F3F4F6;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.file-drop-icon svg{width:15px;height:15px;stroke:#9CA3AF;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.file-drop-txt{font-size:12px;color:#9CA3AF;margin-bottom:3px}
+.file-drop-btn{font-size:11.5px;color:#2563EB;font-weight:600}
+
+/* Bottom action bar */
+.action-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;background:#fff;border-top:1px solid #E5E7EB;position:sticky;bottom:0;z-index:100;box-shadow:0 -2px 8px rgba(0,0,0,.06)}
+.action-left{font-size:12px;color:#9CA3AF}
+.action-right{display:flex;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:9px 18px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn-ghost{background:#fff;color:#6B7280;border:1px solid #E5E7EB}
+.btn-ghost:hover{background:#F9FAFB}
+.btn-primary{background:#2563EB;color:#fff;border:none;box-shadow:0 2px 6px rgba(37,99,235,.25)}
+.btn-primary:hover{background:#1D4ED8}
+
+/* Warning badge */
+.warn-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;background:#FEF2F2;border:1px solid #FECACA;font-size:11.5px;font-weight:600;color:#DC2626}
+svg.i{display:inline-block;vertical-align:middle;fill:none;stroke-linecap:round;stroke-linejoin:round}
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header class="header">
+  <div class="h-logo">
+    <svg viewBox="0 0 64 64" width="30" height="30" style="filter:drop-shadow(0 2px 6px rgba(29,78,216,.25));flex-shrink:0">
+      <defs><linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#1D4ED8"/><stop offset="100%" stop-color="#06B6D4"/></linearGradient></defs>
+      <circle cx="32" cy="32" r="32" fill="url(#g1)"/>
+      <rect x="12" y="40" width="10" height="12" rx="2.5" fill="white" opacity=".25"/>
+      <rect x="26" y="31" width="10" height="21" rx="2.5" fill="white" opacity=".60"/>
+      <rect x="40" y="21" width="10" height="31" rx="2.5" fill="white" opacity=".95"/>
+      <polyline points="17,37 31,27 45,17" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>
+    </svg>
+    <div><div class="h-logo-name">K-Progress</div><div class="h-logo-sub">건설사업부 성과 관제탑</div></div>
+  </div>
+  <nav class="h-nav">
+    <div class="nav-item"><a href="app_ui.html" class="nav-btn">홈</a></div>
+    <div class="nav-item">
+      <a href="#" class="nav-btn act">프로젝트 등록 <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+      <div class="dd">
+        <div class="dd-sec">등록 관리</div>
+        <div class="dd-row" onclick="location.href='project_new.html'">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          신규 프로젝트 등록
+          <span class="dd-badge">NEW</span>
+        </div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#" class="nav-btn">프로젝트 관리 <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+      <div class="dd" style="min-width:214px">
+        <div class="dd-sec">진행 프로젝트</div>
+        <div class="dd-row" onclick="location.href='project_detail.html'"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>부산 물류센터 신축공사</div>
+        <div class="dd-div"></div>
+        <div class="dd-sec">준공 프로젝트</div>
+        <div class="dd-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>2026년</div>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a href="#" class="nav-btn">건설사업부 P&amp;L <svg class="nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+      <div class="dd">
+        <div class="dd-row"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>종합 손익 현황</div>
+        <div class="dd-row"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>사업계획대비 달성율</div>
+      </div>
+    </div>
+  </nav>
+  <div class="h-right">
+    <span class="h-date">2026. 6. 12 (금)</span>
+    <div class="h-user">
+      <div class="h-avatar">김</div>
+      <div><div class="h-uname">김은지 PL</div><div class="h-urole">건설사업부</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ══ BODY ══ -->
+<div class="body">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-item" onclick="location.href='app_ui.html'">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#F9FAFB"><svg stroke="#6B7280" stroke-width="1.8" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>
+        <span class="sb-txt">메인 (종합 대시보드)</span>
+      </div>
+    </div>
+    <div class="sb-div"></div>
+    <!-- 프로젝트 등록 (활성) -->
+    <div class="sb-item act" onclick="sbToggle(this)">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#F5F3FF"><svg stroke="#7C3AED" stroke-width="1.8" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></div>
+        <span class="sb-txt">프로젝트 등록</span>
+      </div>
+      <svg class="sb-arr open" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="sb-sub open">
+      <div class="sb-sub-row act"><div class="sb-dot"></div>신규 프로젝트 등록</div>
+    </div>
+    <div class="sb-div"></div>
+    <!-- 프로젝트 관리 -->
+    <div class="sb-item" onclick="sbToggle(this)">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#EFF6FF"><svg stroke="#2563EB" stroke-width="1.8" viewBox="0 0 24 24" fill="none"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg></div>
+        <span class="sb-txt">프로젝트 관리</span>
+      </div>
+      <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="sb-sub">
+      <div class="sb-sub-toggle" onclick="sbToggle2(this)">
+        <div class="sb-sub-toggle-left"><div class="sb-dot" style="background:#2563EB"></div>진행 프로젝트</div>
+        <svg class="sb-arr2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="sb-sub2">
+        <div class="sb-sub2-row" onclick="location.href='project_detail.html'"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>부산 물류센터 신축공사</div>
+        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>울산 언양 공장 증설공사</div>
+      </div>
+      <div class="sb-sub-toggle" onclick="sbToggle2(this)" style="margin-top:2px">
+        <div class="sb-sub-toggle-left"><div class="sb-dot" style="background:#10B981"></div>준공 프로젝트</div>
+        <svg class="sb-arr2" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="sb-sub2">
+        <div class="sb-sub2-row"><svg viewBox="0 0 24 24"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>2026년</div>
+      </div>
+    </div>
+    <div class="sb-div"></div>
+    <div class="sb-item" onclick="sbToggle(this)">
+      <div class="sb-left">
+        <div class="sb-icon" style="background:#FFF7ED"><svg stroke="#EA580C" stroke-width="1.8" viewBox="0 0 24 24" fill="none"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <span class="sb-txt">건설사업부 P&amp;L</span>
+      </div>
+      <svg class="sb-arr" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="sb-sub">
+      <div class="sb-sub-row"><div class="sb-dot"></div>종합 손익 현황</div>
+      <div class="sb-sub-row"><div class="sb-dot"></div>사업계획대비 달성율</div>
+    </div>
+    <div class="sb-bottom">
+      <div class="sb-quick" onclick="location.href='admin.html'" style="color:#7C3AED;font-weight:600">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        관리자 설정
+      </div>
+      <div class="sb-quick">
+        <svg viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+        ERP 연동 상태
+        <span style="margin-left:auto;font-size:10px;color:#10B981;font-weight:600">시뮬레이션</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- Breadcrumb -->
+    <div class="bc">
+      <a href="app_ui.html">홈</a>
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      <span class="bc-cur">신규 프로젝트 등록</span>
+    </div>
+
+    <!-- Page header -->
+    <div class="pg-hd">
+      <div class="pg-title">신규 프로젝트 등록</div>
+      <div class="pg-sub">새로운 현장의 계약 정보와 실행예산을 입력하세요. <span style="color:#EF4444">*</span> 표시는 필수 항목입니다.</div>
+    </div>
+
+    <div class="form-layout">
+
+      <!-- 좌측: 메인 폼 -->
+      <div>
+
+        <!-- ① 프로젝트 기본정보 -->
+        <div class="panel">
+          <div class="panel-hd">
+            <span class="panel-title">
+              <svg class="i" width="15" height="15" viewBox="0 0 24 24" stroke="#7C3AED" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              프로젝트 기본정보
+            </span>
+          </div>
+          <div class="panel-body">
+
+            <div class="form-section">
+              <div class="form-section-title">식별 정보</div>
+              <div class="form-grid">
+                <div class="form-group">
+                  <div class="form-label">프로젝트 코드 <span class="hint">(자동생성)</span></div>
+                  <div class="code-preview">
+                    <span class="code-val" id="autoCode">KK-2026-006</span>
+                    <span class="code-badge">자동</span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="form-label">프로젝트 상태</div>
+                  <input class="form-input" value="진행중" readonly>
+                </div>
+                <div class="form-group span2">
+                  <div class="form-label">프로젝트명 <span class="req">*</span></div>
+                  <input class="form-input" placeholder="예: 부산 물류센터 신축공사" id="projName">
+                </div>
+                <div class="form-group">
+                  <div class="form-label">발주처 <span class="req">*</span></div>
+                  <input class="form-input" placeholder="발주처명 입력">
+                </div>
+                <div class="form-group">
+                  <div class="form-label">계약형태 <span class="req">*</span></div>
+                  <select class="form-select">
+                    <option value="" disabled selected>선택해 주세요</option>
+                    <option>원도급</option>
+                    <option>하도급</option>
+                    <option>물품납품</option>
+                    <option>용역계약</option>
+                    <option>기타</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <div class="form-section-title">공종 선택 <span style="font-size:10px;font-weight:400;color:#9CA3AF;text-transform:none;letter-spacing:0">(복수 선택 가능)</span></div>
+              <div class="chip-group" id="chipGroup">
+                <div class="chip" onclick="toggleChip(this)">전기</div>
+                <div class="chip" onclick="toggleChip(this)">기계</div>
+                <div class="chip" onclick="toggleChip(this)">소방</div>
+                <div class="chip" onclick="toggleChip(this)">건축</div>
+                <div class="chip" onclick="toggleChip(this)">토목</div>
+                <div class="chip" onclick="toggleChip(this)">통신</div>
+                <div class="chip" onclick="toggleChip(this)">물품납품</div>
+                <div class="chip" onclick="toggleChip(this)">용역</div>
+                <div class="chip" onclick="toggleChip(this)">기타</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ② 계약 조건 -->
+        <div class="panel">
+          <div class="panel-hd">
+            <span class="panel-title">
+              <svg class="i" width="15" height="15" viewBox="0 0 24 24" stroke="#2563EB" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              계약 조건
+            </span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <div class="form-label">계약일자 <span class="req">*</span></div>
+                <input class="form-input" type="date" id="contractDate">
+              </div>
+              <div class="form-group">
+                <div class="form-label">계약금액 (원) <span class="req">*</span></div>
+                <input class="form-input" type="number" placeholder="0" id="contractAmt" oninput="calc()">
+              </div>
+              <div class="form-group">
+                <div class="form-label">공사 시작일 <span class="req">*</span></div>
+                <input class="form-input" type="date" id="startDate">
+              </div>
+              <div class="form-group">
+                <div class="form-label">공사 완료일 <span class="req">*</span></div>
+                <input class="form-input" type="date" id="endDate">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ③ 담당자 -->
+        <div class="panel">
+          <div class="panel-hd">
+            <span class="panel-title">
+              <svg class="i" width="15" height="15" viewBox="0 0 24 24" stroke="#059669" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              프로젝트 담당자
+            </span>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="form-group">
+                <div class="form-label">공무 담당자 <span class="req">*</span></div>
+                <input class="form-input" value="김은지" readonly>
+              </div>
+              <div class="form-group">
+                <div class="form-label">현장 담당자</div>
+                <input class="form-input" placeholder="현장 담당자명 입력">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ④ 실행예산 -->
+        <div class="panel">
+          <div class="panel-hd">
+            <span class="panel-title">
+              <svg class="i" width="15" height="15" viewBox="0 0 24 24" stroke="#EA580C" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              실행예산 입력
+            </span>
+            <span style="font-size:11.5px;color:#9CA3AF">진행률 역산 계산 기준 (K-IFRS 15호)</span>
+          </div>
+          <div class="panel-body">
+
+            <!-- 직접비 -->
+            <div class="form-section">
+              <div class="form-section-title">직접비</div>
+              <div class="cost-row">
+                <span class="cost-name">재료비</span>
+                <span class="cost-unit">원</span>
+                <input class="cost-field" type="number" placeholder="0" oninput="calc()">
+              </div>
+              <div class="cost-row">
+                <span class="cost-name">노무비</span>
+                <span class="cost-unit">원</span>
+                <input class="cost-field" type="number" placeholder="0" oninput="calc()">
+              </div>
+              <div class="cost-row">
+                <span class="cost-name">외주비</span>
+                <span class="cost-unit">원</span>
+                <input class="cost-field" type="number" placeholder="0" oninput="calc()">
+              </div>
+              <div class="cost-row">
+                <span class="cost-name">경비</span>
+                <span class="cost-unit">원</span>
+                <input class="cost-field" type="number" placeholder="0" oninput="calc()">
+              </div>
+              <div class="cost-subtotal">
+                <span class="cost-subtotal-lbl">직접비 소계</span>
+                <span class="cost-subtotal-val" id="directTotal">0 원</span>
+              </div>
+            </div>
+
+            <!-- 간접비 -->
+            <div class="form-section">
+              <div class="form-section-title">간접비</div>
+              <div class="cost-row">
+                <span class="cost-name">현장 관리비</span>
+                <span class="cost-unit">원</span>
+                <input class="cost-field" type="number" placeholder="0" oninput="calc()">
+              </div>
+              <div class="cost-row">
+                <span class="cost-name">일반 관리비</span>
+                <span class="cost-unit">원</span>
+                <input class="cost-field" type="number" placeholder="0" oninput="calc()">
+              </div>
+              <div class="cost-row">
+                <span class="cost-name">보험료</span>
+                <span class="cost-unit">원</span>
+                <input class="cost-field" type="number" placeholder="0" oninput="calc()">
+              </div>
+              <div class="cost-subtotal">
+                <span class="cost-subtotal-lbl">간접비 소계</span>
+                <span class="cost-subtotal-val" id="indirectTotal">0 원</span>
+              </div>
+            </div>
+
+            <!-- 자동계산 결과 -->
+            <div class="computed-row">
+              <div class="computed-box total">
+                <div class="computed-lbl">총 실행원가</div>
+                <div class="computed-val blue" id="totalCost">0 원</div>
+              </div>
+              <div class="computed-box profit">
+                <div class="computed-lbl">예상 이익금액</div>
+                <div class="computed-val green" id="profitAmt">0 원</div>
+              </div>
+              <div class="computed-box rate">
+                <div class="computed-lbl">예상 이익률</div>
+                <div class="computed-val rate-col" id="profitRate">— %</div>
+              </div>
+            </div>
+
+            <!-- 목표 수익률 -->
+            <div class="target-rate-wrap">
+              <span class="target-rate-lbl">⚠ 경고 기준 목표 수익률</span>
+              <input class="target-rate-input" type="number" value="8" id="targetRate" oninput="calc()">
+              <span class="target-rate-pct">%</span>
+              <span class="target-rate-note" id="rateWarning">예상 수익률이 목표 미달 시 메인 화면에 경고 표시됩니다</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div><!-- 좌측 끝 -->
+
+      <!-- 우측: 첨부파일 -->
+      <div>
+        <div class="panel">
+          <div class="panel-hd">
+            <span class="panel-title">
+              <svg class="i" width="15" height="15" viewBox="0 0 24 24" stroke="#374151" stroke-width="1.8"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              첨부파일
+            </span>
+          </div>
+          <div class="panel-body">
+            <div style="margin-bottom:18px">
+              <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">수주보고서 <span style="color:#EF4444">*</span></div>
+              <div id="fi-list-new-suju"></div>
+              <input type="file" id="inp-new-suju" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls,.docx" style="display:none" onchange="handleUploadNew(this,'new-suju')">
+              <div class="file-drop" data-input="inp-new-suju" onclick="document.getElementById('inp-new-suju').click()">
+                <div class="file-drop-icon">
+                  <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                </div>
+                <div class="file-drop-txt">파일을 여기에 드래그하거나</div>
+                <div class="file-drop-btn">파일 선택</div>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">원계약서</div>
+              <div id="fi-list-new-contract"></div>
+              <input type="file" id="inp-new-contract" accept=".pdf,.png,.jpg,.jpeg,.xlsx,.xls,.docx" style="display:none" onchange="handleUploadNew(this,'new-contract')">
+              <div class="file-drop" data-input="inp-new-contract" onclick="document.getElementById('inp-new-contract').click()">
+                <div class="file-drop-icon">
+                  <svg viewBox="0 0 24 24"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>
+                </div>
+                <div class="file-drop-txt">파일을 여기에 드래그하거나</div>
+                <div class="file-drop-btn">파일 선택</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 입력 가이드 -->
+        <div class="panel" style="background:#F0F9FF;border-color:#BAE6FD">
+          <div class="panel-body" style="padding:14px">
+            <div style="font-size:12px;font-weight:700;color:#0369A1;margin-bottom:8px">📌 진행률 역산 공식 안내</div>
+            <div style="font-size:11.5px;color:#0369A1;line-height:1.8">
+              ① 예상실행원가 = 직접비 + 간접비<br>
+              ② 진행률 = 누적원가 ÷ 예상실행원가<br>
+              ③ 시스템매출 = 계약금액 × 진행률<br>
+              ④ 수익률 = (계약금액 − 예상실행원가) ÷ 계약금액
+            </div>
+            <div style="margin-top:10px;font-size:11px;color:#0284C7">
+              ※ K-IFRS 15호 기준 · 등록 후 변경 시 이력 자동 기록
+            </div>
+          </div>
+        </div>
+
+      </div><!-- 우측 끝 -->
+
+    </div><!-- form-layout 끝 -->
+
+  </main>
+</div>
+
+<!-- ══ STICKY ACTION BAR ══ -->
+<div class="action-bar">
+  <div class="action-left" id="warnArea"></div>
+  <div class="action-right">
+    <button class="btn btn-ghost" onclick="location.href='app_ui.html'">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      취소
+    </button>
+    <button class="btn btn-primary" onclick="submitForm()">
+      <svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+      프로젝트 등록
+    </button>
+  </div>
+</div>
+
+<script>
+function sbToggle(el) {
+  const sub = el.nextElementSibling;
+  const arr = el.querySelector('.sb-arr');
+  if (!sub || !sub.classList.contains('sb-sub')) return;
+  const isOpen = sub.classList.toggle('open');
+  if (arr) arr.classList.toggle('open', isOpen);
+}
+function sbToggle2(el) {
+  const sub = el.nextElementSibling;
+  const arr = el.querySelector('.sb-arr2');
+  if (!sub) return;
+  const isOpen = sub.classList.toggle('open');
+  if (arr) arr.classList.toggle('open', isOpen);
+}
+function toggleChip(el) { el.classList.toggle('sel'); }
+
+function fmt(n) {
+  if (n === 0) return '0 원';
+  if (Math.abs(n) >= 1e8) return (n / 1e8).toFixed(1) + '억 원';
+  return n.toLocaleString('ko-KR') + ' 원';
+}
+
+function calc() {
+  const getVal = (sel) => {
+    const els = document.querySelectorAll(sel);
+    return Array.from(els).reduce((s, el) => s + (parseFloat(el.value) || 0), 0);
+  };
+  const directFields = document.querySelectorAll('.cost-field');
+  const direct = Array.from(directFields).slice(0, 4).reduce((s, el) => s + (parseFloat(el.value)||0), 0);
+  const indirect = Array.from(directFields).slice(4).reduce((s, el) => s + (parseFloat(el.value)||0), 0);
+  const contract = parseFloat(document.getElementById('contractAmt').value) || 0;
+  const total = direct + indirect;
+  const profit = contract - total;
+  const rate = contract > 0 ? (profit / contract * 100) : 0;
+  const target = parseFloat(document.getElementById('targetRate').value) || 8;
+
+  document.getElementById('directTotal').textContent = fmt(direct);
+  document.getElementById('indirectTotal').textContent = fmt(indirect);
+  document.getElementById('totalCost').textContent = fmt(total);
+  document.getElementById('profitAmt').textContent = fmt(profit);
+  document.getElementById('profitRate').textContent = contract > 0 ? rate.toFixed(1) + ' %' : '— %';
+
+  const rateEl = document.getElementById('profitRate');
+  const warnArea = document.getElementById('warnArea');
+  if (contract > 0 && rate < target) {
+    rateEl.style.color = '#DC2626';
+    warnArea.innerHTML = '<span style="display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;background:#FEF2F2;border:1px solid #FECACA;font-size:12px;font-weight:600;color:#DC2626">⚠ 예상 수익률 ' + rate.toFixed(1) + '% — 목표(' + target + '%) 미달, 등록 시 경고 표시됩니다</span>';
+  } else {
+    rateEl.style.color = '#1D4ED8';
+    warnArea.innerHTML = '';
+  }
+}
+
+function submitForm() {
+  const name = document.getElementById('projName').value.trim();
+  if (!name) { alert('프로젝트명을 입력해 주세요.'); return; }
+  alert('✅ 프로젝트 등록 완료!\n\n' + name + '\n\n(실제 구현 시 DB 저장 후 상세 화면으로 이동합니다.)');
+  location.href = 'app_ui.html';
+}
+
+(function(){
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('contractDate').value = today;
+  document.getElementById('startDate').value = today;
+  const l = document.createElement('link');
+  l.rel = 'stylesheet';
+  l.href = 'https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.css';
+  document.head.appendChild(l);
+})();
+
+/* ── 첨부파일 (신규 프로젝트) ── */
+const newFileStore = {};
+
+function fmtSizeNew(b){ return b<1024*1024?(b/1024).toFixed(1)+'KB':(b/1024/1024).toFixed(1)+'MB'; }
+
+function renderNewItem(key, idx){
+  const f = newFileStore[key][idx];
+  const ext = f.name.split('.').pop().toLowerCase();
+  const color = ['pdf'].includes(ext)?'#DC2626':['png','jpg','jpeg','gif','webp'].includes(ext)?'#059669':['xlsx','xls'].includes(ext)?'#16A34A':'#2563EB';
+  return `<div class="fi-new-item">
+    <div class="fi-new-icon" style="background:${color}18">
+      <svg viewBox="0 0 24 24" style="stroke:${color}"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    </div>
+    <span class="fi-new-name" title="${f.name}">${f.name}</span>
+    <span class="fi-new-size">${f.size}</span>
+    <div class="fi-new-del" onclick="deleteNewFile('${key}',${idx})">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div>
+  </div>`;
+}
+
+function refreshNewList(key){
+  const el = document.getElementById('fi-list-'+key);
+  if(el) el.innerHTML = (newFileStore[key]||[]).map((_,i)=>renderNewItem(key,i)).join('');
+}
+
+function handleUploadNew(input, key){
+  if(!newFileStore[key]) newFileStore[key]=[];
+  Array.from(input.files).forEach(f=>{
+    newFileStore[key].push({name:f.name, size:fmtSizeNew(f.size), url:URL.createObjectURL(f)});
+  });
+  refreshNewList(key);
+  input.value='';
+}
+
+function deleteNewFile(key, idx){
+  URL.revokeObjectURL(newFileStore[key][idx].url);
+  newFileStore[key].splice(idx,1);
+  refreshNewList(key);
+}
+
+/* ── 드래그앤드롭 초기화 (스크립트가 body 끝 → 직접 실행) ── */
+(function initDropZones(){
+  document.querySelectorAll('.file-drop[data-input]').forEach(zone=>{
+    if(zone._dragInited) return;
+    zone._dragInited = true;
+    const inputId = zone.dataset.input;
+
+    zone.addEventListener('dragenter', e=>{ e.preventDefault(); e.stopPropagation(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragover',  e=>{ e.preventDefault(); e.stopPropagation(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', e=>{ e.stopPropagation(); zone.classList.remove('drag-over'); });
+    zone.addEventListener('drop', e=>{
+      e.preventDefault(); e.stopPropagation();
+      zone.classList.remove('drag-over');
+      const files = e.dataTransfer.files;
+      if(!files.length) return;
+      const key = inputId.replace(/^inp-/, '');
+      if(!newFileStore[key]) newFileStore[key]=[];
+      Array.from(files).forEach(f=>{
+        newFileStore[key].push({name:f.name, size:fmtSizeNew(f.size), url:URL.createObjectURL(f)});
+      });
+      refreshNewList(key);
+    });
+  });
+})();
+</script>
+</body>
+</html>
